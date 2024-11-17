@@ -134,3 +134,4 @@ dkms.conf
 .codechecker/
 .vscode/
 .cache/
+src/compile_commands.json
