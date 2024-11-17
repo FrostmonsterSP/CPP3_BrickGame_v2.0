@@ -19,14 +19,16 @@ TEST_DIR=tests
 REPORT_DIR=report
 BIN_DIR=bin
 HTML_DOC_DIR=doc/html
+GUI_DIR=gui/desktop/snake
 
 # Исходные файлы
 MAIN_SRCS=main.cpp
-GUI_SRCS=$(wildcard $(GUI_DIR)/*.c)
-TEST_SRCS=$(wildcard $(TEST_DIR)/*.c)
+GUI_SRCS=$(wildcard $(GUI_DIR)/*.cpp)
+TEST_SRCS=$(wildcard $(TEST_DIR)/*.cpp)
 
 # Объектные файлы
 MAIN_OBJ=$(patsubst %.cpp, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
+GUI_OBJS=$(patsubst $(GUI_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(GUI_SRCS))
 
 # Объектные файлы тестов
 TGUI_OBJS=$(patsubst $(GUI_DIR)/%.cpp, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
@@ -42,7 +44,7 @@ HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
 CFLAGS+=-std=c++17 `pkg-config --cflags gtkmm-4.0` -Iheaders -g -fPIC
-CLIBS=`pkg-config --libs gtkmm-4.0` -ltetris
+CPPLIBS=`pkg-config --libs gtkmm-4.0` -ltetris
 TEST_LIBS=-lcheck -ltetris -lgcov -lm -lsubunit
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
@@ -95,9 +97,9 @@ $(BIN_DIR):
 	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(MAIN_OBJ)
+$(EXEC): $(OBJ_DIR) $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
-	$(G)$(CXX) $(CFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) $(LIB_DIR_LINK) $(CLIBS)
+	$(G)$(CXX) $(CFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) $(LIB_DIR_LINK) $(CPPLIBS)
 
 # Сборка тестов
 test: $(TOBJ_DIR) 
@@ -112,7 +114,13 @@ $(LIB_TETRIS): $(BRICK_OBJS)
 	$(G)$(AR) $@ $^
 
 # Компиляция объектных файлов
+# Main
 $(OBJ_DIR)/%.o: %.cpp
+	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
+	$(G)$(CXX) $(CFLAGS) -c $< -o $@
+
+# Gui
+$(GUI_OBJS): $(GUI_SRCS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
 	$(G)$(CXX) $(CFLAGS) -c $< -o $@
 
