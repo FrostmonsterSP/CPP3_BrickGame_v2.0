@@ -15,10 +15,10 @@
 namespace s21 {
 
 namespace constants {
-constexpr int FIELD_HEIGHT = 20;
-constexpr int FIELD_WIDTH = 10;
-constexpr int spacing = 10;
-
+constexpr int kFieldHeight = 20;
+constexpr int kFieldWidth = 10;
+constexpr int kSpacing = 10;
+constexpr double kRatio = 0.5;
 }  // namespace constants
 class GameBox : public Gtk::Box {
  public:
@@ -26,9 +26,9 @@ class GameBox : public Gtk::Box {
   ~GameBox() override;
 
  private:
-  Gtk::AspectFrame fieldFrame;
-  Gtk::Grid fieldGrid;
-  Gtk::Box sidePanel;
+  Gtk::AspectFrame field_frame_;
+  Gtk::Grid field_grid_;
+  Gtk::Box side_panel_;
 };  // class GameBox
 }  // namespace s21
 

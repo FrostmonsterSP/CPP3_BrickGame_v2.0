@@ -7,21 +7,21 @@ namespace s21 {
 
 AppWindow::AppWindow() {
   set_title("Brick Game v2.0");
-  set_size_request(constants::WIN_WIDTH, constants::WIN_HEIGHT);
+  set_size_request(constants::kWinWidth, constants::kWinHeight);
 
   // Настройка панели заголовка
-  headerBar.set_visible(true);
-  headerBar.set_can_focus(false);
+  header_bar_.set_visible(true);
+  header_bar_.set_can_focus(false);
 
-  menuButton.set_visible(true);
-  menuButton.set_can_focus(true);
-  menuButton.set_focus_on_click(false);
-  menuButton.set_receives_default(true);
-  menuButton.set_direction(Gtk::ArrowType::NONE);
+  menu_button_.set_visible(true);
+  menu_button_.set_can_focus(true);
+  menu_button_.set_focus_on_click(false);
+  menu_button_.set_receives_default(true);
+  menu_button_.set_direction(Gtk::ArrowType::NONE);
 
-  headerBar.pack_end(menuButton);
-  set_titlebar(headerBar);
-  set_child(gameBox);
+  header_bar_.pack_end(menu_button_);
+  set_titlebar(header_bar_);
+  set_child(game_box_);
 }  // constructor
 
 AppWindow::~AppWindow() = default;

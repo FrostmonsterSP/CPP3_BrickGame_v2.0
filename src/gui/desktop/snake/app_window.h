@@ -11,8 +11,8 @@
 namespace s21 {
 
 namespace constants {
-constexpr int WIN_HEIGHT = 600;
-constexpr int WIN_WIDTH = 400;
+constexpr int kWinHeight = 600;
+constexpr int kWinWidth = 400;
 }  // namespace constants
 
 class AppWindow : public Gtk::ApplicationWindow {
@@ -21,9 +21,9 @@ class AppWindow : public Gtk::ApplicationWindow {
   ~AppWindow() override;
 
  private:
-  GameBox gameBox;
-  Gtk::HeaderBar headerBar;
-  Gtk::MenuButton menuButton;
+  GameBox game_box_;
+  Gtk::HeaderBar header_bar_;
+  Gtk::MenuButton menu_button_;
 };  // class MainWindow
 };  // namespace s21
 
