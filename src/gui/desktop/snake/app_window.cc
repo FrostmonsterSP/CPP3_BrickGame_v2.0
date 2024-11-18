@@ -1,7 +1,7 @@
 //
 // Created by frostmonster on 17.11.2024
 //
-#include "app-window.h"
+#include "app_window.h"
 
 namespace s21 {
 

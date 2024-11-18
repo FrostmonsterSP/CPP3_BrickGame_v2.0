@@ -1,7 +1,7 @@
 //
 // Created by frostmonster on 18.11.2024
 //
-#include "game-box.h"
+#include "game_box.h"
 
 #include "gtkmm/box.h"
 #include "gtkmm/label.h"

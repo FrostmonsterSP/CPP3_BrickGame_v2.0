@@ -6,7 +6,7 @@
 
 #include <gtkmm.h>
 
-#include "game-box.h"
+#include "game_box.h"
 
 namespace s21 {
 
