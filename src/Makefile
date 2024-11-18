@@ -120,7 +120,7 @@ $(OBJ_DIR)/%.o: %.cpp
 	$(G)$(CXX) $(CFLAGS) -c $< -o $@
 
 # Gui
-$(GUI_OBJS): $(GUI_SRCS)
+$(OBJ_DIR)/%.o: $(GUI_DIR)/%.cpp
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
 	$(G)$(CXX) $(CFLAGS) -c $< -o $@
 
