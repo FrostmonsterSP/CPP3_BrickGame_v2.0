@@ -138,3 +138,5 @@ src/compile_commands.json
 git-push.sh
 src/bin/
 src/libs/
+.clangd
+src/.clang-format
