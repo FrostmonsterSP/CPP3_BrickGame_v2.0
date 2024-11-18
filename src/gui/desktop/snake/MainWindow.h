@@ -25,6 +25,14 @@ class MainWindow : public Gtk::ApplicationWindow {
  private:
   Gtk::HeaderBar headerBar;
   Gtk::MenuButton menuButton;
+  Gtk::Grid game_grid;  // Игровое поле
+  Gtk::Box main_box{Gtk::Orientation::HORIZONTAL};
+  Gtk::Box side_panel{Gtk::Orientation::VERTICAL};
+  Gtk::Label score_label{"Score: 0"};
+  Gtk::Label high_score_label{"High Score: 0"};
+  Gtk::Label level_label{"Level: 0"};
+  Gtk::Label speed_label{"Speed: 0"};
+  Gtk::Label pause_label{"Paused"};
 };  // class MainWindow
 };  // namespace s21
 
