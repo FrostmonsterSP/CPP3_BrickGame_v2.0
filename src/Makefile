@@ -138,14 +138,14 @@ clean-doc:
 	@if test -d $(HTML_DOC_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление html документации${RESET}\n"; $(RM) $(HTML_DOC_DIR); fi
 
 # Очистка тестов
-clean-test: clean-test-obj clean-test-lib
-	@if test -f test; then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестового файла${RESET}\n"; $(RM) test; fi
+# clean-test: clean-test-obj clean-test-lib
+# 	@if test -f test; then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестового файла${RESET}\n"; $(RM) test; fi
 
-clean-test-obj:
-	@if test -d $(TOBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога сборки тестов${RESET}\n"; $(RM) $(TOBJ_DIR); fi
+# clean-test-obj:
+# 	@if test -d $(TOBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога сборки тестов${RESET}\n"; $(RM) $(TOBJ_DIR); fi
 
-clean-test-lib:
-	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
+# clean-test-lib:
+# 	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
 
 # Очистка исполняемого файла
 clean-exec:
@@ -167,7 +167,7 @@ clean-obj:
 clean-dist:
 	@if test -f "$(DISTFILE)"; then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление старого архива $(DISTFILE)${RESET}\n"; $(RM) $(DISTFILE); fi
 
-clean: clean-test clean-test-obj clean-test-lib clean-obj clean-exec
+clean: clean-obj clean-bin clean-exec
 
 # Пересборка
 rebuild: clean all
@@ -187,7 +187,7 @@ gcov_report: test $(GCOV_REPORT)
 build: $(EXEC)
 
 get-libs:
-	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"
+	$(G)if test ! -f $(LIB_TETRIS); then printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; fi
 	$(G)chmod +x get-libs.sh
 	$(G)./get-libs.sh
 
