@@ -97,7 +97,7 @@ $(BIN_DIR):
 	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(MAIN_OBJ) $(GUI_OBJS)
+$(EXEC): get-libs $(OBJ_DIR) $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
 	$(G)$(CXX) $(CFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) $(LIB_DIR_LINK) $(CPPLIBS)
 
@@ -109,9 +109,9 @@ test: $(TOBJ_DIR)
 	$(G)./$@
 
 # Создание статической библиотеки движка
-$(LIB_TETRIS): $(BRICK_OBJS)
-	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка статической библиотеки движка $(notdir $@)${RESET}\n"
-	$(G)$(AR) $@ $^
+# $(LIB_TETRIS): $(BRICK_OBJS)
+# 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка статической библиотеки движка $(notdir $@)${RESET}\n"
+# 	$(G)$(AR) $@ $^
 
 # Компиляция объектных файлов
 # Main
@@ -185,6 +185,11 @@ gcov_report: test $(GCOV_REPORT)
 	$(G)$(OPEN_CMD) $(GCOV_REPORT)
 
 build: $(EXEC)
+
+get-libs:
+	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"
+	$(G)chmod +x get-libs.sh
+	$(G)./get-libs.sh
 
 # Цель install
 install: $(BIN_DIR) build
