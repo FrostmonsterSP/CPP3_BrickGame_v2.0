@@ -13,6 +13,13 @@
 #include "gtkmm/aspectframe.h"
 
 namespace s21 {
+
+namespace constants {
+constexpr int FIELD_HEIGHT = 20;
+constexpr int FIELD_WIDTH = 10;
+constexpr int spacing = 10;
+
+}  // namespace constants
 class GameBox : public Gtk::Box {
  public:
   GameBox();

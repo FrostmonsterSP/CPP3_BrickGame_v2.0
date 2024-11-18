@@ -1,15 +1,13 @@
 //
 // Created by frostmonster on 17.11.2024
 //
-#include "AppWindow.h"
-
-#include "../../../constants.h"
+#include "app-window.h"
 
 namespace s21 {
 
 AppWindow::AppWindow() {
   set_title("Brick Game v2.0");
-  set_default_size(constants::winWidth, constants::winHeight);
+  set_size_request(constants::WIN_WIDTH, constants::WIN_HEIGHT);
 
   // Настройка панели заголовка
   headerBar.set_visible(true);
@@ -23,7 +21,6 @@ AppWindow::AppWindow() {
 
   headerBar.pack_end(menuButton);
   set_titlebar(headerBar);
-
   set_child(gameBox);
 }  // constructor
 

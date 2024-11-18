@@ -1,9 +1,8 @@
 //
 // Created by frostmonster on 18.11.2024
 //
-#include "GameBox.h"
+#include "game-box.h"
 
-#include "../../../constants.h"
 #include "gtkmm/box.h"
 #include "gtkmm/label.h"
 
@@ -15,8 +14,8 @@ GameBox::GameBox() {
   provider->load_from_path(style);
   auto provider_priority = GTK_STYLE_PROVIDER_PRIORITY_USER;
 
-  for (int row = 0; row < constants::fieldHeight; ++row) {
-    for (int col = 0; col < constants::fieldWidth; ++col) {
+  for (int row = 0; row < constants::FIELD_HEIGHT; ++row) {
+    for (int col = 0; col < constants::FIELD_WIDTH; ++col) {
       auto* cell = Gtk::make_managed<Gtk::Box>();
 
       cell->get_style_context()->add_provider(provider, provider_priority);

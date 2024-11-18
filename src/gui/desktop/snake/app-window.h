@@ -6,9 +6,15 @@
 
 #include <gtkmm.h>
 
-#include "GameBox.h"
+#include "game-box.h"
 
 namespace s21 {
+
+namespace constants {
+constexpr int WIN_HEIGHT = 600;
+constexpr int WIN_WIDTH = 400;
+}  // namespace constants
+
 class AppWindow : public Gtk::ApplicationWindow {
  public:
   AppWindow();
