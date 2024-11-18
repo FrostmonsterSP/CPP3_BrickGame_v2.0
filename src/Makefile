@@ -22,16 +22,16 @@ HTML_DOC_DIR=doc/html
 GUI_DIR=gui/desktop/snake
 
 # Исходные файлы
-MAIN_SRCS=main.cpp
-GUI_SRCS=$(wildcard $(GUI_DIR)/*.cpp)
-TEST_SRCS=$(wildcard $(TEST_DIR)/*.cpp)
+MAIN_SRCS=main.cc
+GUI_SRCS=$(wildcard $(GUI_DIR)/*.cc)
+TEST_SRCS=$(wildcard $(TEST_DIR)/*.cc)
 
 # Объектные файлы
-MAIN_OBJ=$(patsubst %.cpp, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
-GUI_OBJS=$(patsubst $(GUI_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(GUI_SRCS))
+MAIN_OBJ=$(patsubst %.cc, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
+GUI_OBJS=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(GUI_SRCS))
 
 # Объектные файлы тестов
-TGUI_OBJS=$(patsubst $(GUI_DIR)/%.cpp, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
+TGUI_OBJS=$(patsubst $(GUI_DIR)/%.cc, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
 
 # Исполняемый файл и библиотеки
 EXEC=$(PROJECT_NAME)
@@ -115,17 +115,17 @@ test: $(TOBJ_DIR)
 
 # Компиляция объектных файлов
 # Main
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: %.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
 	$(G)$(CXX) $(CFLAGS) -c $< -o $@
 
 # Gui
-$(OBJ_DIR)/%.o: $(GUI_DIR)/%.cpp
+$(OBJ_DIR)/%.o: $(GUI_DIR)/%.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
 	$(G)$(CXX) $(CFLAGS) -c $< -o $@
 
 # Компиляция тестов
-$(TOBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
+$(TOBJ_DIR)/%.o: $(TEST_DIR)/%.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция тестов $(notdir $<)${RESET}\n"
 	$(G)$(CXX) $(CFLAGS) -c $< -o $@
 
