@@ -8,6 +8,15 @@
 
 namespace s21 {
 
+namespace constants {
+constexpr int winHeight = 600;
+constexpr int winWidth = 600;
+constexpr int cellSize = 20;
+constexpr int spacing = 10;
+constexpr int fieldHeight = 20;
+constexpr int fieldWidth = 10;
+}  // namespace constants
+
 class MainWindow : public Gtk::ApplicationWindow {
  public:
   MainWindow();
