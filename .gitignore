@@ -136,3 +136,5 @@ dkms.conf
 .cache/
 src/compile_commands.json
 git-push.sh
+src/bin/
+src/libs/
