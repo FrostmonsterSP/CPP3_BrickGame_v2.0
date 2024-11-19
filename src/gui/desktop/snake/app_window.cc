@@ -7,6 +7,8 @@
 
 namespace s21 {
 
+using namespace constants;
+
 AppWindow::AppWindow() {
   set_title("Brick Game v2.0");
   set_size_request(constants::kWinWidth, constants::kWinHeight);
@@ -22,8 +24,12 @@ AppWindow::AppWindow() {
   menu_button_.set_direction(Gtk::ArrowType::NONE);
 
   header_bar_.pack_end(menu_button_);
+
+  main_frame_.set_ratio(kRatio);
+  main_frame_.set_child(game_box_);
+
   set_titlebar(header_bar_);
-  set_child(game_box_);
+  set_child(main_frame_);
 }  // constructor
 
 AppWindow::~AppWindow() = default;
