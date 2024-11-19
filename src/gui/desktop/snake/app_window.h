@@ -7,6 +7,7 @@
 #include <gtkmm.h>
 
 #include "game_box.h"
+#include "gtkmm/aspectframe.h"
 
 namespace s21 {
 
@@ -16,6 +17,7 @@ class AppWindow : public Gtk::ApplicationWindow {
   ~AppWindow() override;
 
  private:
+  Gtk::AspectFrame main_frame_;
   GameBox game_box_;
   Gtk::HeaderBar header_bar_;
   Gtk::MenuButton menu_button_;
