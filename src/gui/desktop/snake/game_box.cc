@@ -21,16 +21,12 @@ GameBox::GameBox() {
 
       cell->get_style_context()->add_provider(provider, provider_priority);
       cell->get_style_context()->add_class("empty-cell");
-      // cell->set_sensitive(false);
       cell->set_expand();
       field_grid_.attach(*cell, col, row, 1, 1);
     }  // for col
   }  // for row
 
-  field_grid_.set_column_homogeneous(false);
-  field_grid_.set_row_homogeneous(false);
-
-  side_panel_.set_spacing(constants::kSpacing);
+  side_panel_.set_margin(constants::kSpacing * 2);
   Gtk::Label score_label("Score: 0");
   side_panel_.append(score_label);
 
