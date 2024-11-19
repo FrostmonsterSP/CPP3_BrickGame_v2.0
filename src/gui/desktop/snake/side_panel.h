@@ -4,7 +4,6 @@
 #ifndef SIDE_PANEL_H
 #define SIDE_PANEL_H
 
-#include "constants.h"
 #include "gtkmm/box.h"
 #include "gtkmm/label.h"
 
@@ -15,6 +14,10 @@ class SidePanel : public Gtk::Box {
   ~SidePanel() override;
 
  private:
+  int score_ = 0;
+  int high_score_ = 1;
+  int level_ = 2;
+  int speed_ = 3;
   Gtk::Label score_label_;
   Gtk::Label high_score_label_;
   Gtk::Label level_label_;

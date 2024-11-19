@@ -3,13 +3,24 @@
 //
 #include "side_panel.h"
 
+#include "constants.h"
+
 namespace s21 {
 SidePanel::SidePanel() {
-  score_label_.set_text("Score: 0");
-  high_score_label_.set_text("High score: 0");
-  level_label_.set_text("Level: 1");
-  speed_label_.set_text("Speed: 1");
+  score_label_.set_text("Score: " + std::to_string(score_));
+  high_score_label_.set_text("High score: " + std::to_string(high_score_));
+  level_label_.set_text("Level: " + std::to_string(level_));
+  speed_label_.set_text("Speed: " + std::to_string(speed_));
+
+  set_orientation(Gtk::Orientation::VERTICAL);
+  set_valign(Gtk::Align::CENTER);
+  set_hexpand(false);
   set_margin(constants::kSpacing * 2);
+
+  append(score_label_);
+  append(high_score_label_);
+  append(level_label_);
+  append(speed_label_);
 }
 
 SidePanel::~SidePanel() = default;
