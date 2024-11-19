@@ -14,12 +14,6 @@
 
 namespace s21 {
 
-namespace constants {
-constexpr int kFieldHeight = 20;
-constexpr int kFieldWidth = 10;
-constexpr int kSpacing = 10;
-constexpr double kRatio = 0.5;
-}  // namespace constants
 class GameBox : public Gtk::Box {
  public:
   GameBox();

@@ -43,7 +43,7 @@ DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).tar.gz
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-CFLAGS+=-std=c++17 `pkg-config --cflags gtkmm-4.0` -Ilibs -g -fPIC
+CFLAGS+=-Wall -Werror -Wextra -std=c++17 `pkg-config --cflags gtkmm-4.0` -Ilibs -Iheaders -g -fPIC
 CPPLIBS=`pkg-config --libs gtkmm-4.0` -ltetris
 TEST_LIBS=-lcheck -ltetris -lgcov -lm -lsubunit
 COV_FLAGS=-fprofile-arcs -ftest-coverage

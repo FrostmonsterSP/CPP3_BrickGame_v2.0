@@ -3,6 +3,7 @@
 //
 #include "game_box.h"
 
+#include "constants.h"
 #include "gtkmm/box.h"
 #include "gtkmm/label.h"
 

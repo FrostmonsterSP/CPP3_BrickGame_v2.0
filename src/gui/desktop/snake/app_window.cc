@@ -3,6 +3,8 @@
 //
 #include "app_window.h"
 
+#include "constants.h"
+
 namespace s21 {
 
 AppWindow::AppWindow() {

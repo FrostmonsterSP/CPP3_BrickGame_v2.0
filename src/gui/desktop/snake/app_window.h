@@ -10,11 +10,6 @@
 
 namespace s21 {
 
-namespace constants {
-constexpr int kWinHeight = 600;
-constexpr int kWinWidth = 400;
-}  // namespace constants
-
 class AppWindow : public Gtk::ApplicationWindow {
  public:
   AppWindow();
