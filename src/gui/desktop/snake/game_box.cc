@@ -13,6 +13,7 @@ GameBox::GameBox() {
   const float kRatio =
       static_cast<float>(kFieldWidth) / static_cast<float>(kFieldHeight);
 
+  field_grid_.add_css_class("field-grid");
 
   for (int row = 0; row < kFieldHeight; ++row) {
     for (int col = 0; col < kFieldWidth; ++col) {
