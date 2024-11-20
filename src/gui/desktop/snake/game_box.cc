@@ -10,9 +10,7 @@ namespace s21 {
 GameBox::GameBox() {
   const int kFieldHeight = 20;
   const int kFieldWidth = 10;
-  const int kStylePrioriy = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION;
 
-  SetStyle_();
 
   for (int row = 0; row < kFieldHeight; ++row) {
     for (int col = 0; col < kFieldWidth; ++col) {
@@ -33,27 +31,5 @@ GameBox::GameBox() {
 }  // GameBox::GameBox
 
 GameBox::~GameBox() = default;
-
-void GameBox::SetStyle_() {
-  if (provider_ != nullptr) {
-    return;
-  }
-
-  const std::string kStyle =
-      ".filled-cell {\
-    border-radius: 10%;\
-    margin: 1px;\
-}\
-.field-grid {\
-    background-color: #282a36;\
-    border: 1px solid;\
-    border-radius: 8px;\
-    padding: 5px;\
-    margin: 10px;\
-}";
-
-  provider_ = Gtk::CssProvider::create();
-  provider_->load_from_string(kStyle);
-}
 
 }  // namespace s21

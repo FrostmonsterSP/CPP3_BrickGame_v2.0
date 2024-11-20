@@ -9,6 +9,15 @@ AppWindow::AppWindow() {
   const float kRatio = 3. / 4.;
   const int kWinHeight = 600;
   const int kWinWidth = 425;
+  const std::string kStyle = "edu/school21/BrickGame2/css/game_field.css";
+  const int kPriority = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION;
+  const auto kDisplay = get_display();
+
+  set_display(kDisplay);
+
+  auto provider = Gtk::CssProvider::create();
+  provider->load_from_resource(kStyle);
+  Gtk::StyleProvider::add_provider_for_display(kDisplay, provider, kPriority);
 
   set_title("Brick Game v2.0");
   set_size_request(kWinWidth, kWinHeight);
