@@ -2,8 +2,8 @@ PROJECT_NAME:=s21_brick_game
 PROJECT_VER:=2.0
 
 # Компилятор и флаги
-CC?=gcc
-CXX?=g++
+CC:=gcc
+CXX:=g++
 AR:=ar rcs
 RM:=rm -rf
 DOXYGEN:=doxygen/doxygen
@@ -21,7 +21,7 @@ GUI_DIR=gui/desktop/snake
 
 # Объектные файлы
 MAIN_OBJ:=$(patsubst %.cc, $(OBJ_DIR)/%.o, main.cc)
-GUI_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc))
+GUI_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc)) $(OBJ_DIR)/gresources.c.o
 
 # Объектные файлы тестов
 TOBJ_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc))
@@ -36,7 +36,8 @@ DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-CXXFLAGS:=$(CXXFLAGS) -Wall -Werror -Wextra -std=c++17 `pkg-config --cflags gtkmm-4.0` -Ilibs -Iheaders -fPIC 
+COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Ilibs -Iheaders -fPIC
+CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) `pkg-config --cflags gtkmm-4.0`
 # DEBUG:=
 CXXLIBS:=`pkg-config --libs gtkmm-4.0`
 TEST_LIBS=-l
@@ -68,7 +69,7 @@ ifneq ($(DOXYPATH),)
 DOXYGEN=$(DOXYPATH)
 endif
 
-.PHONY: test install rebuild
+.PHONY: test install rebuild resources dvi dist
 
 # Правило по умолчанию
 all: install
@@ -87,9 +88,15 @@ $(BIN_DIR):
 	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): get-libs $(OBJ_DIR) $(MAIN_OBJ) $(GUI_OBJS)
+$(EXEC): $(OBJ_DIR) check_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
 	$(G)$(CXX) $(CXXFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
+
+# Сборка ресурсов Gtk4
+$(OBJ_DIR)/gresources.c.o:
+	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка ресурсов Gtk4${RESET}\n"
+	$(G)glib-compile-resources --generate-source --target=$(GUI_DIR)/gresources.c $(GUI_DIR)/gresources.xml --sourcedir $(GUI_DIR)
+	$(G)$(CC) $(COMPILE_FLAGS) `pkg-config --cflags glib-2.0` -c $(GUI_DIR)/gresources.c -o $(OBJ_DIR)/gresources.c.o
 
 # Сборка тестов
 test: $(OBJ_DIR) 
@@ -210,15 +217,14 @@ check_deps: check_gtkmm check_gtest check_gcovr get-libs
 
 check_gtkmm:
 	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Проверка зависимостей${RESET}\n"
-	$(G)pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
+	$(G)pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
 
 get-libs:
-	$(G)test ! -f $(LIB_TETRIS) || printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; chmod +x get-libs.sh; ./get-libs.sh
+	$(G)test -f $(LIB_TETRIS) || (printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; chmod +x get-libs.sh; ./get-libs.sh)
 
 check_gtest:
-	$(G)pkg-config --exists gtest || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gtest. Установите его${RESET}\n"; exit 1)
+	$(G)pkg-config --exists gtest || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtest. Установите его${RESET}\n"; exit 1)
 
 check_gcovr:
-	$(G)which gcovr &> /dev/null || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr. Установите его${RESET}\n"; exit 1)
 	$(G)which gcovr &> /dev/null || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr. Установите его из pip${RESET}\n"; exit 1)
-	$(G)if [ $(gcovr --version | grep -oe '[0-9]\.[0-9]') -lt 7.4]; then printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr версии не ниже 7.4. Установите его из pip${RESET}\n"; exit 1
+	$(G)test $(shell gcovr --version | grep -oe '[0-9]\.[0-9]' | sed -e 's/\.//g') -gt 74 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gcovr версии не ниже 7.4. Установите его из pip${RESET}\n"; exit 1)
