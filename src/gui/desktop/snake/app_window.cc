@@ -7,15 +7,11 @@ namespace s21 {
 
 AppWindow::AppWindow() {
   const float kRatio = 3. / 4.;
-  const int kWinHeight = 800;
-  const int kWinWidth = 580;
+  const int kWinHeight = 600;
+  const int kWinWidth = 425;
 
   set_title("Brick Game v2.0");
   set_size_request(kWinWidth, kWinHeight);
-
-  // Настройка панели заголовка
-  header_bar_.set_visible(true);
-  header_bar_.set_can_focus(false);
 
   menu_button_.set_visible(true);
   menu_button_.set_can_focus(true);
@@ -30,7 +26,7 @@ AppWindow::AppWindow() {
 
   set_titlebar(header_bar_);
   set_child(main_frame_);
-}  // constructor
+}  // AppWindow::AppWindow
 
 AppWindow::~AppWindow() = default;
 
