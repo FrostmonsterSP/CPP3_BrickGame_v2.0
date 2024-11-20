@@ -1,11 +1,54 @@
-.filled-cell {
-    border-radius: 10%;
-    margin: 1px;
+ * {
+    --cell-color1: #0341ae;
+    --cell-color2: #72cb3b;
+    --cell-color3: #ffd500;
+    --cell-color4: #ff3213;
+    --cell-color5: #943bcb;
+    --cell-color6: #00ffd5;
+    --cell-color7: #ff840a;
+    --cell-outline-color: #1D1E1F;
+    --field-bg-color: #888888;
 }
+
 .field-grid {
-    background-color: #282a36;
+    background-color: var(--field-bg-color);
     border: 1px solid;
     border-radius: 8px;
     padding: 5px;
     margin: 10px;
+}
+
+.filled-cell {
+    background-color: #ffffff;
+    border-radius: 3pt;
+    outline: var(--cell-outline-color) 2pt solid;
+    outline-offset: -1pt;
+}
+
+.filled-cell.cell-1 {
+    background-color: var(--cell-color1);
+}
+
+.filled-cell.cell-2 {
+    background-color: var(--cell-color2);
+}
+
+.filled-cell.cell-3 {
+    background-color: var(--cell-color3);
+}
+
+.filled-cell.cell-4 {
+    background-color: var(--cell-color4);
+}
+
+.filled-cell.cell-5 {
+    background-color: var(--cell-color5);
+}
+
+.filled-cell.cell-6 {
+    background-color: var(--cell-color6);
+}
+
+.filled-cell.cell-7 {
+    background-color: var(--cell-color7);
 }
