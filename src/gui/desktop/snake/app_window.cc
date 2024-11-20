@@ -3,15 +3,15 @@
 //
 #include "app_window.h"
 
-#include "constants.h"
-
 namespace s21 {
 
-using namespace constants;
-
 AppWindow::AppWindow() {
+  const float kRatio = 3. / 4.;
+  const int kWinHeight = 800;
+  const int kWinWidth = 580;
+
   set_title("Brick Game v2.0");
-  set_size_request(constants::kWinWidth, constants::kWinHeight);
+  set_size_request(kWinWidth, kWinHeight);
 
   // Настройка панели заголовка
   header_bar_.set_visible(true);
