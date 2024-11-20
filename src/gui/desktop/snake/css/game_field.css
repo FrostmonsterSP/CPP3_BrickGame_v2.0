@@ -1,15 +1,9 @@
 .filled-cell {
-    background-color: #0ff;
     border-radius: 10%;
     margin: 1px;
 }
-/* .empty-cell {
-    background: #f0f;
-    border-radius: 10%;
-    margin: 1px;
-} */
 .field-grid {
-    background: var(--fg-color);
+    background-color: #282a36;
     border: 1px solid;
     border-radius: 8px;
     padding: 5px;
