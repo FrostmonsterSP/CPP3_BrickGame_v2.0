@@ -10,6 +10,8 @@ namespace s21 {
 GameBox::GameBox() {
   const int kFieldHeight = 20;
   const int kFieldWidth = 10;
+  const float kRatio =
+      static_cast<float>(kFieldWidth) / static_cast<float>(kFieldHeight);
 
 
   for (int row = 0; row < kFieldHeight; ++row) {
@@ -20,13 +22,10 @@ GameBox::GameBox() {
     }  // for col
   }  // for row
 
-  field_grid_.get_style_context()->add_provider(provider_, kStylePrioriy);
+  field_frame_.set_ratio(kRatio);
+  field_frame_.set_child(field_grid_);
 
-  field_grid_.get_style_context()->add_class("field-grid");
-
-  set_orientation(Gtk::Orientation::HORIZONTAL);
-
-  append(field_grid_);
+  append(field_frame_);
   append(side_panel_);
 }  // GameBox::GameBox
 

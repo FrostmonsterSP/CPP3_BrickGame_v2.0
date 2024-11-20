@@ -4,6 +4,7 @@
 #ifndef GAMEFRAME_H
 #define GAMEFRAME_H
 
+#include <gtkmm/aspectframe.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/cssprovider.h>
@@ -21,6 +22,7 @@ class GameBox : public Gtk::Box {
 
  private:
   Gtk::Grid field_grid_;
+  Gtk::AspectFrame field_frame_;
   SidePanel side_panel_;
 };  // class GameBox
 }  // namespace s21
