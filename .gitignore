@@ -139,4 +139,5 @@ git-push.sh
 src/bin/
 src/libs/
 .clangd
+.clang-tidy
 src/.clang-format
