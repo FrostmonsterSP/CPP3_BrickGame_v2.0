@@ -2,18 +2,16 @@ PROJECT_NAME:=s21_brick_game
 PROJECT_VER:=2.0
 
 # Компилятор и флаги
-CC=gcc
-CXX=g++
-AR=ar rcs
-RM=rm -rf
-GCOVR=gcovr
-DOXYGEN=doxygen/doxygen
+CC?=gcc
+CXX?=g++
+AR:=ar rcs
+RM:=rm -rf
+DOXYGEN:=doxygen/doxygen
 PIPE=>/dev/null 2>&1
 G=@
 
 # Папки
 OBJ_DIR=objects
-TOBJ_DIR=objects/test
 LIB_DIR=libs
 TEST_DIR=tests
 REPORT_DIR=report
@@ -21,31 +19,27 @@ BIN_DIR=bin
 HTML_DOC_DIR=doc/html
 GUI_DIR=gui/desktop/snake
 
-# Исходные файлы
-MAIN_SRCS=main.cc
-GUI_SRCS=$(wildcard $(GUI_DIR)/*.cc)
-TEST_SRCS=$(wildcard $(TEST_DIR)/*.cc)
-
 # Объектные файлы
-MAIN_OBJ=$(patsubst %.cc, $(OBJ_DIR)/%.o, $(MAIN_SRCS))
-GUI_OBJS=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(GUI_SRCS))
+MAIN_OBJ:=$(patsubst %.cc, $(OBJ_DIR)/%.o, main.cc)
+GUI_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc))
 
 # Объектные файлы тестов
-TGUI_OBJS=$(patsubst $(GUI_DIR)/%.cc, $(TOBJ_DIR)/%.o, $(GUI_SRCS))
+TOBJ_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc))
 
 # Исполняемый файл и библиотеки
 EXEC=$(PROJECT_NAME)
 LIB_TETRIS=$(LIB_DIR)/libtetris.a
-LIB_DIR_LINK=-L$(LIB_DIR)
-DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).tar.gz
+LIB_SNAKE=$(LIB_DIR)/libsnake.a
+DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 
 # Документация
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-CFLAGS+=-Wall -Werror -Wextra -std=c++17 `pkg-config --cflags gtkmm-4.0` -Ilibs -Iheaders -g -fPIC
-CPPLIBS=`pkg-config --libs gtkmm-4.0` -ltetris
-TEST_LIBS=-lcheck -ltetris -lgcov -lm -lsubunit
+CXXFLAGS:=$(CXXFLAGS) -Wall -Werror -Wextra -std=c++17 `pkg-config --cflags gtkmm-4.0` -Ilibs -Iheaders -fPIC 
+# DEBUG:=
+CXXLIBS:=`pkg-config --libs gtkmm-4.0`
+TEST_LIBS=-l
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
 # Цвета для вывода в консоль
@@ -58,12 +52,11 @@ BOLD=\033[1m
 RESET=\033[0m
 
 ifeq ($(shell uname),Darwin)
-OPEN_CMD=open
+OPEN_CMD:=open
 endif
 
 ifeq ($(shell uname),Linux)
-OPEN_CMD=xdg-open
-ADD_LDFLAGS=-lm -lsubunit
+OPEN_CMD:=xdg-open
 endif
 
 ifeq ($(DEBUG), 1)
@@ -75,10 +68,10 @@ ifneq ($(DOXYPATH),)
 DOXYGEN=$(DOXYPATH)
 endif
 
-.PHONY: test
+.PHONY: test install rebuild
 
 # Правило по умолчанию
-all: test install
+all: install
 
 # Создание директорий для объектных файлов, библиотек и исполняемого файла
 $(OBJ_DIR):
@@ -90,21 +83,18 @@ $(LIB_DIR):
 $(REPORT_DIR):
 	@if test ! -d $(REPORT_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога отчёта${RESET}\n"; mkdir -p $(REPORT_DIR); fi
 
-$(TOBJ_DIR):
-	@if test ! -d $(TOBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога сборки тестов${RESET}\n"; mkdir -p $(TOBJ_DIR); fi
-
 $(BIN_DIR):
 	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
 
 # Сборка исполняемого файла
 $(EXEC): get-libs $(OBJ_DIR) $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
-	$(G)$(CXX) $(CFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) $(LIB_DIR_LINK) $(CPPLIBS)
+	$(G)$(CXX) $(CXXFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
 
 # Сборка тестов
-test: $(TOBJ_DIR) 
+test: $(OBJ_DIR) 
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка тестов${RESET}\n"
-	$(G)$(CXX) $(CFLAGS) $(COV_FLAGS) -o $@ $(TEST_OBJS) $(TGUI_OBJS) $(LIB_DIR_LINK) $(TEST_LIBS)
+	$(G)$(CXX) $(CXXFLAGS) $(COV_FLAGS) -o $@ $(TEST_OBJS) $(TGUI_OBJS) -L$(LIB_DIR) $(TEST_LIBS)
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Запуск тестов${RESET}\n"
 	$(G)./$@
 
@@ -117,17 +107,17 @@ test: $(TOBJ_DIR)
 # Main
 $(OBJ_DIR)/%.o: %.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
-	$(G)$(CXX) $(CFLAGS) -c $< -o $@
+	$(G)$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Gui
 $(OBJ_DIR)/%.o: $(GUI_DIR)/%.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
-	$(G)$(CXX) $(CFLAGS) -c $< -o $@
+	$(G)$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Компиляция тестов
-$(TOBJ_DIR)/%.o: $(TEST_DIR)/%.cc
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция тестов $(notdir $<)${RESET}\n"
-	$(G)$(CXX) $(CFLAGS) -c $< -o $@
+	$(G)$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Очистка отчёта о покрытии тестов
 clean-report:
@@ -142,7 +132,7 @@ clean-doc:
 # 	@if test -f test; then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестового файла${RESET}\n"; $(RM) test; fi
 
 # clean-test-obj:
-# 	@if test -d $(TOBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога сборки тестов${RESET}\n"; $(RM) $(TOBJ_DIR); fi
+# 	@if test -d $(OBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога сборки тестов${RESET}\n"; $(RM) $(OBJ_DIR); fi
 
 # clean-test-lib:
 # 	@if test -f $(TLIB_TETRIS); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление тестовой статической библиотеки движка${RESET}\n"; $(RM) $(TLIB_TETRIS); fi
@@ -177,7 +167,7 @@ uninstall: clean-bin clean-lib
 
 $(GCOV_REPORT): $(REPORT_DIR)
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Генерация отчёта о покрытии тестов${RESET}\n"
-	$(G)$(GCOVR) --html-details $(GCOV_REPORT) --html-theme github.dark-blue $(PIPE)
+	$(G)gcovr --html-details $(GCOV_REPORT) --html-theme github.dark-blue $(PIPE)
 
 # Генерация отчёта о покрытии тестов
 gcov_report: test $(GCOV_REPORT)
@@ -185,11 +175,6 @@ gcov_report: test $(GCOV_REPORT)
 	$(G)$(OPEN_CMD) $(GCOV_REPORT)
 
 build: $(EXEC)
-
-get-libs:
-	$(G)if test ! -f $(LIB_TETRIS); then printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; fi
-	$(G)chmod +x get-libs.sh
-	$(G)./get-libs.sh
 
 # Цель install
 install: $(BIN_DIR) build
@@ -219,3 +204,21 @@ everything: all $(GCOV_REPORT) $(HTML_DOC) dist
 
 # Полная пересборка
 rebuild-all: purge everything
+
+# Проверка зависимостей
+check_deps: check_gtkmm check_gtest check_gcovr get-libs
+
+check_gtkmm:
+	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Проверка зависимостей${RESET}\n"
+	$(G)pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
+
+get-libs:
+	$(G)test ! -f $(LIB_TETRIS) || printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; chmod +x get-libs.sh; ./get-libs.sh
+
+check_gtest:
+	$(G)pkg-config --exists gtest || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gtest. Установите его${RESET}\n"; exit 1)
+
+check_gcovr:
+	$(G)which gcovr &> /dev/null || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr. Установите его${RESET}\n"; exit 1)
+	$(G)which gcovr &> /dev/null || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr. Установите его из pip${RESET}\n"; exit 1)
+	$(G)if [ $(gcovr --version | grep -oe '[0-9]\.[0-9]') -lt 7.4]; then printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr версии не ниже 7.4. Установите его из pip${RESET}\n"; exit 1
