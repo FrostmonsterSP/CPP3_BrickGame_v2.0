@@ -22,6 +22,9 @@ class GameBox : public Gtk::Box {
  private:
   Gtk::Grid field_grid_;
   SidePanel side_panel_;
+  Glib::RefPtr<Gtk::CssProvider> provider_;
+
+  void SetStyle_();
 };  // class GameBox
 }  // namespace s21
 
