@@ -14,12 +14,9 @@ AppWindow::AppWindow() {
   set_size_request(kWinWidth, kWinHeight);
 
   menu_button_.set_visible(true);
-  menu_button_.set_can_focus(true);
-  menu_button_.set_focus_on_click(false);
-  menu_button_.set_receives_default(true);
   menu_button_.set_direction(Gtk::ArrowType::NONE);
 
-  header_bar_.pack_end(menu_button_);
+  header_bar_.pack_start(menu_button_);
 
   main_frame_.set_ratio(kRatio);
   main_frame_.set_child(game_box_);
