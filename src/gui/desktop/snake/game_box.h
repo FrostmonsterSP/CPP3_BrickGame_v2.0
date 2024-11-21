@@ -11,20 +11,16 @@
 #include <gtkmm/frame.h>
 #include <gtkmm/grid.h>
 
-#include "side_panel.h"
-
 namespace s21 {
 
-class GameBox : public Gtk::Box {
+class GameFrame : public Gtk::AspectFrame {
  public:
-  GameBox();
-  ~GameBox() override;
+  GameFrame();
+  ~GameFrame() override;
 
  private:
   Gtk::Grid field_grid_;
-  Gtk::AspectFrame field_frame_;
-  SidePanel side_panel_;
-};  // class GameBox
+};  // class GameFrame
 }  // namespace s21
 
 #endif  // GAMEFRAME_H

@@ -7,12 +7,10 @@
 
 namespace s21 {
 
-GameBox::GameBox() {
+GameFrame::GameFrame() {
   const int kFieldHeight = 20;
   const int kFieldWidth = 10;
-  const float kRatio =
-      static_cast<float>(kFieldWidth) / static_cast<float>(kFieldHeight);
-
+  const float kRatio = static_cast<float>(kFieldWidth) / (kFieldHeight);
   field_grid_.add_css_class("field-grid");
 
   for (int row = 0; row < kFieldHeight; ++row) {
@@ -23,13 +21,10 @@ GameBox::GameBox() {
     }  // for col
   }  // for row
 
-  field_frame_.set_ratio(kRatio);
-  field_frame_.set_child(field_grid_);
-
-  append(field_frame_);
-  append(side_panel_);
+  set_ratio(kRatio);
+  set_child(field_grid_);
 }  // GameBox::GameBox
 
-GameBox::~GameBox() = default;
+GameFrame::~GameFrame() = default;
 
 }  // namespace s21
