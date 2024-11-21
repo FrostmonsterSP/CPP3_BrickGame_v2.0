@@ -13,12 +13,17 @@ class MenuBox : public Gtk::Box {
   MenuBox();
   ~MenuBox() override;
 
+  void SetStartGameCallback(const std::function<void()>& start_callback);
+
  private:
+  const int kMarigin = 10;
+
   Gtk::Button start_button_;
   Gtk::Button level_button_;
   Gtk::Button speed_button_;
   Gtk::Button exit_button_;
 
+  std::function<void()> start_callback_;
   void StartButtonClicked_();
 };  // class MenuBox
 }  // namespace s21

@@ -11,11 +11,13 @@ MenuBox::MenuBox() {
   speed_button_.set_label("Speed");
   exit_button_.set_label("Exit");
 
-  start_button_.set_margin(5);
+  start_button_.set_margin(kMarigin);
+  level_button_.set_margin(kMarigin);
+  speed_button_.set_margin(kMarigin);
+  exit_button_.set_margin(kMarigin);
 
-  level_button_.set_margin(5);
-  speed_button_.set_margin(5);
-  exit_button_.set_margin(5);
+  start_button_.signal_clicked().connect(
+      sigc::mem_fun(*this, &MenuBox::StartButtonClicked_));
 
   set_hexpand(true);
   set_orientation(Gtk::Orientation::VERTICAL);
@@ -28,5 +30,18 @@ MenuBox::MenuBox() {
 }  // MenuBox::MenuBox
 
 MenuBox::~MenuBox() = default;
+
+void MenuBox::SetStartGameCallback(
+    const std::function<void()>& start_callback) {
+  if (start_callback) {
+    start_callback_ = start_callback;
+  }
+}
+
+void MenuBox::StartButtonClicked_() {
+  if (start_callback_) {
+    start_callback_();
+  }
+}
 
 }  // namespace s21

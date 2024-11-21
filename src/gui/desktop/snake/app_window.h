@@ -6,6 +6,7 @@
 
 #include <gtkmm.h>
 #include <gtkmm/aspectframe.h>
+#include <gtkmm/enums.h>
 #include <gtkmm/stack.h>
 
 #include "game_box.h"
@@ -20,6 +21,8 @@ class AppWindow : public Gtk::ApplicationWindow {
   ~AppWindow() override;
 
  private:
+  const Gtk::StackTransitionType kTrType =
+      Gtk::StackTransitionType::SLIDE_LEFT_RIGHT;
   Gtk::AspectFrame main_frame_;
   Gtk::Box main_box_;
   Gtk::Stack main_stack_;
@@ -28,6 +31,8 @@ class AppWindow : public Gtk::ApplicationWindow {
   SidePanel side_panel_;
   GameFrame game_box_;
   MenuBox menu_box_;
+
+  void SwitchStackPage_();
 };  // class MainWindow
 };  // namespace s21
 
