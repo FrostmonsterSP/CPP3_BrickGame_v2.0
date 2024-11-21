@@ -15,7 +15,8 @@ OBJ_DIR=objects
 LIB_DIR=libs
 TEST_DIR=tests
 REPORT_DIR=report
-BIN_DIR=bin
+BUILD_DIR=bin
+INSTALL_DIR=app
 HTML_DOC_DIR=doc/html
 GUI_DIR=gui/desktop/snake
 
@@ -69,14 +70,14 @@ ifneq ($(DOXYPATH),)
 DOXYGEN=$(DOXYPATH)
 endif
 
-.PHONY: test install rebuild resources dvi dist
+.PHONY: test install build rebuild resources dvi dist
 
 # Правило по умолчанию
 all: install
 
 # Создание директорий для объектных файлов, библиотек и исполняемого файла
 $(OBJ_DIR):
-	@if test ! -d $(OBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога сборки${RESET}\n"; mkdir -p $(OBJ_DIR); fi
+	@if test ! -d $(OBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога объектных файлов${RESET}\n"; mkdir -p $(OBJ_DIR); fi
 
 $(LIB_DIR):
 	@if test ! -d $(LIB_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога библиотек${RESET}\n"; mkdir -p $(LIB_DIR); fi
@@ -84,13 +85,16 @@ $(LIB_DIR):
 $(REPORT_DIR):
 	@if test ! -d $(REPORT_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога отчёта${RESET}\n"; mkdir -p $(REPORT_DIR); fi
 
-$(BIN_DIR):
-	@if test ! -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога исполняемого файла${RESET}\n"; mkdir -p $(BIN_DIR); fi
+$(BUILD_DIR):
+	@if test ! -d $(BUILD_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога сборки${RESET}\n"; mkdir -p $(BUILD_DIR); fi
+
+$(INSTALL_DIR):
+	@if test ! -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога установки${RESET}\n"; mkdir -p $(INSTALL_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) check_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
+$(EXEC): $(OBJ_DIR) $(BUILD_DIR) check_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
-	$(G)$(CXX) $(CXXFLAGS) -o $@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
+	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
 
 # Сборка ресурсов Gtk4
 $(OBJ_DIR)/gresources.c.o:
@@ -146,11 +150,11 @@ clean-doc:
 
 # Очистка исполняемого файла
 clean-exec:
-	@if test -f $(EXEC); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление исполняемого файла${RESET}\n"; $(RM) $(EXEC); fi
+	@if test -d $(BUILD_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление исполняемого файла${RESET}\n"; $(RM) $(BUILD_DIR); fi
 
 # Очистка каталога установки
 clean-bin:
-	@if test -d $(BIN_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога установки${RESET}\n"; $(RM) $(BIN_DIR); fi
+	@if test -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога установки${RESET}\n"; $(RM) $(INSTALL_DIR); fi
 
 # Очистка библиотек
 clean-lib:
@@ -164,10 +168,10 @@ clean-obj:
 clean-dist:
 	@if test -f "$(DISTFILE)"; then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление старого архива $(DISTFILE)${RESET}\n"; $(RM) $(DISTFILE); fi
 
-clean: clean-obj clean-bin clean-exec
+clean: clean-obj clean-exec
 
 # Пересборка
-rebuild: clean all
+rebuild: clean build
 
 # Удаление установленного исполняемого файла
 uninstall: clean-bin clean-lib
@@ -184,9 +188,9 @@ gcov_report: test $(GCOV_REPORT)
 build: $(EXEC)
 
 # Цель install
-install: $(BIN_DIR) build
+install: $(INSTALL_DIR) build
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Установка исполняемого файла${RESET}\n"
-	$(G)mv $(EXEC) $(BIN_DIR)
+	$(G)cp $(BUILD_DIR)/$(EXEC) $(INSTALL_DIR)
 	@printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Установка завершена${RESET}\n"
 
 # Генерация документации
