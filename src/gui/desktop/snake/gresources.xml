@@ -2,6 +2,5 @@
 <gresources>
   <gresource prefix="edu/school21/BrickGame2">
     <file compressed="true">css/game_field.css</file>
-    <file compressed="true">svg/cell.svg</file>
   </gresource>
 </gresources>
