@@ -8,9 +8,6 @@
 namespace s21 {
 
 GameFrame::GameFrame() {
-  const int kFieldHeight = 20;
-  const int kFieldWidth = 10;
-  const float kRatio = static_cast<float>(kFieldWidth) / (kFieldHeight);
   field_grid_.add_css_class("field-grid");
 
   for (int row = 0; row < kFieldHeight; ++row) {

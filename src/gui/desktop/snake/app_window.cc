@@ -6,11 +6,6 @@
 namespace s21 {
 
 AppWindow::AppWindow() {
-  const float kRatio = 3. / 4.;
-  const int kWinHeight = 600;
-  const int kWinWidth = 425;
-  const std::string kStyle = "edu/school21/BrickGame2/css/game_field.css";
-  const int kPriority = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION;
   const auto kDisplay = get_display();
 
   set_display(kDisplay);

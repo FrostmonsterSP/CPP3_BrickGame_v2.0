@@ -19,6 +19,10 @@ class GameFrame : public Gtk::AspectFrame {
   ~GameFrame() override;
 
  private:
+  const int kFieldHeight = 20;
+  const int kFieldWidth = 10;
+  const float kRatio = .5;
+
   Gtk::Grid field_grid_;
 };  // class GameFrame
 }  // namespace s21

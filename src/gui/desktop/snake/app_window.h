@@ -21,8 +21,15 @@ class AppWindow : public Gtk::ApplicationWindow {
   ~AppWindow() override;
 
  private:
+  const float kRatio = 3. / 4.;
+  const int kWinHeight = 600;
+  const int kWinWidth = 425;
+  const int kTrDuration = 500;
   const Gtk::StackTransitionType kTrType =
       Gtk::StackTransitionType::SLIDE_LEFT_RIGHT;
+  const std::string kStyle = "edu/school21/BrickGame2/css/game_field.css";
+  const int kPriority = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION;
+
   Gtk::AspectFrame main_frame_;
   Gtk::Box main_box_;
   Gtk::Stack main_stack_;

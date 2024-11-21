@@ -14,6 +14,7 @@ class SidePanel : public Gtk::Box {
   ~SidePanel() override;
 
  private:
+  const int kSpacing = 10;
   int score_ = 0;
   int high_score_ = 1;
   int level_ = 2;

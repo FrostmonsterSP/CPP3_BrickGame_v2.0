@@ -5,8 +5,6 @@
 
 namespace s21 {
 SidePanel::SidePanel() {
-  const int kSpacing = 10;
-
   score_label_.set_text("Score: " + std::to_string(score_));
   high_score_label_.set_text("High score: " + std::to_string(high_score_));
   level_label_.set_text("Level: " + std::to_string(level_));
