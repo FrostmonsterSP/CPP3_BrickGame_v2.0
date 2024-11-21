@@ -27,8 +27,15 @@ AppWindow::AppWindow() {
 
   header_bar_.pack_start(menu_button_);
 
+  main_stack_.add(menu_box_);
+  main_stack_.add(game_box_);
+
+  main_box_.set_orientation(Gtk::Orientation::HORIZONTAL);
+  main_box_.append(main_stack_);
+  main_box_.append(side_panel_);
+
   main_frame_.set_ratio(kRatio);
-  main_frame_.set_child(game_box_);
+  main_frame_.set_child(main_box_);
 
   set_titlebar(header_bar_);
   set_child(main_frame_);
