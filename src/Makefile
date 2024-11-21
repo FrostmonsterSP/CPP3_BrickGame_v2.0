@@ -99,8 +99,9 @@ $(EXEC): $(OBJ_DIR) $(BUILD_DIR) check_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ
 # Сборка ресурсов Gtk4
 $(OBJ_DIR)/gresources.c.o:
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка ресурсов Gtk4${RESET}\n"
-	$(G)glib-compile-resources --generate-source --target=$(GUI_DIR)/gresources.c $(GUI_DIR)/gresources.xml --sourcedir $(GUI_DIR)
-	$(G)$(CC) $(COMPILE_FLAGS) `pkg-config --cflags glib-2.0` -c $(GUI_DIR)/gresources.c -o $(OBJ_DIR)/gresources.c.o
+	$(G)glib-compile-resources --generate-source --target=gresources.c $(GUI_DIR)/gresources.xml --sourcedir $(GUI_DIR)
+	$(G)$(CC) $(COMPILE_FLAGS) `pkg-config --cflags glib-2.0` -c gresources.c -o $(OBJ_DIR)/gresources.c.o
+	$(G)$(RM) gresources.c
 
 # Сборка тестов
 test: $(OBJ_DIR) 
