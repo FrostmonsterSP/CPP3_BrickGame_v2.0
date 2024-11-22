@@ -17,8 +17,8 @@ namespace s21 {
 
 class AppWindow : public Gtk::ApplicationWindow {
  public:
-  AppWindow();
-  ~AppWindow() override;
+  AppWindow(Glib::RefPtr<Gtk::Application> app);
+  ~AppWindow() override = default;
 
  private:
   const float kRatio = 3. / 4.;
@@ -29,6 +29,7 @@ class AppWindow : public Gtk::ApplicationWindow {
       Gtk::StackTransitionType::SLIDE_LEFT_RIGHT;
   const std::string kStyle = "edu/school21/BrickGame2/css/game_field.css";
   const int kPriority = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION;
+  Glib::RefPtr<Gtk::Application> app_;
 
   Gtk::AspectFrame main_frame_;
   Gtk::Box main_box_;

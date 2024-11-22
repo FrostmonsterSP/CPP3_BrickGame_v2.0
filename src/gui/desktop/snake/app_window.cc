@@ -5,14 +5,33 @@
 
 namespace s21 {
 
-AppWindow::AppWindow() {
+AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
   const auto kDisplay = get_display();
+  app_ = std::move(app);
 
   set_display(kDisplay);
 
   auto provider = Gtk::CssProvider::create();
   provider->load_from_resource(kStyle);
   Gtk::StyleProvider::add_provider_for_display(kDisplay, provider, kPriority);
+
+  auto settings = Gtk::Settings::get_default();
+
+  if (settings) {
+    const auto kTheme = settings->property_gtk_theme_name().get_value();
+    const bool kIsDarkThemeName = kTheme.find("dark") != std::string::npos ||
+                                  kTheme.find("Dark") != std::string::npos;
+    const bool kIsDarkTheme =
+        settings->property_gtk_application_prefer_dark_theme().get_value() ||
+        kIsDarkThemeName;
+    g_debug("Theme: %s\n", kTheme.c_str());
+    g_debug("Is dark theme: %s\n", kIsDarkTheme ? "true" : "false");
+    if (kIsDarkTheme) {
+      add_css_class("dark-mode");
+    }
+  } else {
+    g_warning("Failed to get Gtk::Settings.\n");
+  }  // if settings
 
   set_title("Brick Game v2.0");
   set_size_request(kWinWidth, kWinHeight);
@@ -38,9 +57,7 @@ AppWindow::AppWindow() {
 
   set_titlebar(header_bar_);
   set_child(main_frame_);
-}  // AppWindow::AppWindow
-
-AppWindow::~AppWindow() = default;
+}  // AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
 
 void AppWindow::SwitchStackPage_() {
   if (main_stack_.get_visible_child_name() == "game") {
