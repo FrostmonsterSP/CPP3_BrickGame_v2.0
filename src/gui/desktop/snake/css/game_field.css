@@ -6,7 +6,7 @@
     --cell-color5: #943bcb;
     --cell-color6: #00ffd5;
     --cell-color7: #ff840a;
-    --cell-outline-color: #1d1d1d66;
+    --cell-outline-color: red  /* #1d1d1d66 */;
     --cell-outline-color-filled: #1d1d1d;
 }
 
@@ -53,6 +53,6 @@
 }
 
 .dark-mode * {
-    --cell-outline-color: #e2e2e222;
+    --cell-outline-color: green /* #e2e2e222 */;
     --cell-outline-color-filled: #e2e2e2;
 }

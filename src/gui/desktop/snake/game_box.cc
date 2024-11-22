@@ -8,16 +8,16 @@
 namespace s21 {
 
 GameFrame::GameFrame() {
-  field_grid_.add_css_class("field-grid");
-
   for (int row = 0; row < kFieldHeight; ++row) {
     for (int col = 0; col < kFieldWidth; ++col) {
       auto* cell = Gtk::make_managed<Gtk::Box>();
       cell->set_expand();
+      cell->add_css_class("cell");
       field_grid_.attach(*cell, col, row, 1, 1);
     }  // for col
   }  // for row
 
+  field_grid_.add_css_class("main-field");
   set_ratio(kRatio);
   set_child(field_grid_);
 }  // GameBox::GameBox
