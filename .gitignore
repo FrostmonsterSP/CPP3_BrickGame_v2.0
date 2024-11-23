@@ -137,7 +137,7 @@ dkms.conf
 src/compile_commands.json
 git-push.sh
 src/bin/
-src/libs/
+src/deps
 .clangd
 .clang-tidy
 src/.clang-format
