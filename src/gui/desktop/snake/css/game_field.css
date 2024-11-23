@@ -1,4 +1,4 @@
- * {
+ /* * {
     --cell-color1: #0341ae;
     --cell-color2: #72cb3b;
     --cell-color3: #ffd500;
@@ -6,53 +6,51 @@
     --cell-color5: #943bcb;
     --cell-color6: #00ffd5;
     --cell-color7: #ff840a;
-    --cell-outline-color: red  /* #1d1d1d66 */;
+    --cell-outline-color: red  /* #1d1d1d66 *//*;
     --cell-outline-color-filled: #1d1d1d;
-}
+} */
 
 .main-field {
-    /* background-color: var(--field-bg-color); */
     border: 1px solid;
     border-radius: 8px;
     padding: 5px;
-    /* margin: 10px; */
+    margin: 5px;
 }
 
 .cell {
     border-radius: 3pt;
-    outline: var(--cell-outline-color) 2pt solid;
-    outline-offset: -1pt;
+    outline: #e2e2e222 2px solid;
+    outline-offset: -1px;
 }
 
 .cell.filled-1 {
-    background-color: var(--cell-color1);
+    background-color: #0341ae;
 }
 
 .cell.filled-2 {
-    background-color: var(--cell-color2);
+    background-color: #72cb3b;
 }
 
 .cell.filled-3 {
-    background-color: var(--cell-color3);
+    background-color: #ffd500;
 }
 
 .cell.filled-4 {
-    background-color: var(--cell-color4);
+    background-color: #ff3213;
 }
 
 .cell.filled-5 {
-    background-color: var(--cell-color5);
+    background-color: #943bcb;
 }
 
 .cell.filled-6 {
-    background-color: var(--cell-color6);
+    background-color: #00ffd5;
 }
 
 .cell.filled-7 {
-    background-color: var(--cell-color7);
+    background-color: #ff840a;
 }
 
-.dark-mode * {
-    --cell-outline-color: green /* #e2e2e222 */;
-    --cell-outline-color-filled: #e2e2e2;
+.dark-mode .cell {
+    outline-color: #1d1d1d22;
 }
