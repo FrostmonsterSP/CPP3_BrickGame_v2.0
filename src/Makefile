@@ -12,7 +12,8 @@ G=@
 
 # Папки
 OBJ_DIR=objects
-LIB_DIR=libs
+DEPS_DIR=deps
+LIB_DIR=$(DEPS_DIR)/lib
 TEST_DIR=tests
 REPORT_DIR=report
 BUILD_DIR=bin
@@ -37,10 +38,10 @@ DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Ilibs -Iheaders -fPIC
-CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) `pkg-config --cflags gtkmm-4.0`
+COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders -fPIC
+CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) `PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --cflags gtkmm-4.0`
 # DEBUG:=
-CXXLIBS:=`pkg-config --libs gtkmm-4.0`
+CXXLIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0`
 TEST_LIBS=-l
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
@@ -92,13 +93,13 @@ $(INSTALL_DIR):
 	@if test ! -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога установки${RESET}\n"; mkdir -p $(INSTALL_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(BUILD_DIR) check_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
+$(EXEC): $(OBJ_DIR) $(BUILD_DIR) build_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
 	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
 
-# Сборка ресурсов Gtk4
+# Сборка ресурсов Gtk
 $(OBJ_DIR)/gresources.c.o:
-	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка ресурсов Gtk4${RESET}\n"
+	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка ресурсов Gtk${RESET}\n"
 	$(G)glib-compile-resources --generate-source --target=gresources.c $(GUI_DIR)/gresources.xml --sourcedir $(GUI_DIR)
 	$(G)$(CC) $(COMPILE_FLAGS) `pkg-config --cflags glib-2.0` -c gresources.c -o $(OBJ_DIR)/gresources.c.o
 	$(G)$(RM) gresources.c
@@ -218,18 +219,18 @@ everything: all $(GCOV_REPORT) $(HTML_DOC) dist
 rebuild-all: purge everything
 
 # Проверка зависимостей
-check_deps: check_gtkmm check_gtest check_gcovr get-libs
+build_deps: check_gtkmm get-libs
 
 check_gtkmm:
 	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Проверка зависимостей${RESET}\n"
-	$(G)pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
+	$(G)PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
 
 get-libs:
-	$(G)test -f $(LIB_TETRIS) || (printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; chmod +x get-libs.sh; ./get-libs.sh)
+	$(G)test -f $(LIB_TETRIS) || (printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; chmod +x get-libs.sh; ./get-libs.sh $(DEPS_DIR)/include $(LIB_DIR))
 
 check_gtest:
 	$(G)pkg-config --exists gtest || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtest. Установите его${RESET}\n"; exit 1)
 
 check_gcovr:
-	$(G)which gcovr &> /dev/null || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr. Установите его из pip${RESET}\n"; exit 1)
+	$(G)which gcovr 1> /dev/null 2> /dev/null || (printf "${RED}${BOLD}=>${RESET} Ошибка: Необходим gcovr. Установите его из pip${RESET}\n"; exit 1)
 	$(G)test $(shell gcovr --version | grep -oe '[0-9]\.[0-9]' | sed -e 's/\.//g') -gt 74 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gcovr версии не ниже 7.4. Установите его из pip${RESET}\n"; exit 1)
