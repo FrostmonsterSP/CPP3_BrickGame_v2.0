@@ -24,6 +24,10 @@ class GameFrame : public Gtk::AspectFrame {
   const float kRatio = .5;
 
   Gtk::Grid field_grid_;
+
+ protected:
+  auto BlinkingCellCallback_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
+      -> bool;
 };  // class GameFrame
 }  // namespace s21
 
