@@ -30,8 +30,8 @@ TOBJ_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.c
 
 # Исполняемый файл и библиотеки
 EXEC=$(PROJECT_NAME)
-LIB_TETRIS=$(LIB_DIR)/libtetris.a
-LIB_SNAKE=$(LIB_DIR)/libsnake.a
+LIB_TETRIS=$(LIB_DIR)/libtetris.so
+LIB_SNAKE=$(LIB_DIR)/libsnake.so
 DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 
 # Документация
@@ -41,7 +41,7 @@ GCOV_REPORT=$(REPORT_DIR)/coverage.html
 COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders -fPIC
 CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) `PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --cflags gtkmm-4.0`
 # DEBUG:=
-CXXLIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0`
+CXXLIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0` -Wl,-rpath,$(LIB_DIR)
 TEST_LIBS=-l
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
@@ -80,8 +80,8 @@ all: install
 $(OBJ_DIR):
 	@if test ! -d $(OBJ_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога объектных файлов${RESET}\n"; mkdir -p $(OBJ_DIR); fi
 
-$(LIB_DIR):
-	@if test ! -d $(LIB_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога библиотек${RESET}\n"; mkdir -p $(LIB_DIR); fi
+# $(LIB_DIR):
+# 	@if test ! -d $(LIB_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога зависимостей${RESET}\n"; mkdir -p $(LIB_DIR); fi
 
 $(REPORT_DIR):
 	@if test ! -d $(REPORT_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога отчёта${RESET}\n"; mkdir -p $(REPORT_DIR); fi
@@ -93,7 +93,7 @@ $(INSTALL_DIR):
 	@if test ! -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога установки${RESET}\n"; mkdir -p $(INSTALL_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(BUILD_DIR) build_deps $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
+$(EXEC): $(OBJ_DIR) $(BUILD_DIR) get-libs $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
 	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
 
@@ -158,9 +158,9 @@ clean-exec:
 clean-bin:
 	@if test -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога установки${RESET}\n"; $(RM) $(INSTALL_DIR); fi
 
-# Очистка библиотек
+# Очистка загруженных библиотек
 clean-lib:
-	@if test -d $(LIB_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога библиотек${RESET}\n"; $(RM) $(LIB_DIR); fi
+	@if test -d $(DEPS_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Удаление каталога зависимостей${RESET}\n"; $(RM) $(LIB_DIR); fi
 
 # Очистка объектных файлов
 clean-obj:
@@ -218,15 +218,13 @@ everything: all $(GCOV_REPORT) $(HTML_DOC) dist
 # Полная пересборка
 rebuild-all: purge everything
 
-# Проверка зависимостей
-build_deps: check_gtkmm get-libs
-
-check_gtkmm:
-	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Проверка зависимостей${RESET}\n"
-	$(G)PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
+# check_gtkmm:
+# 	@printf "${GREEN}${BOLD}=>${RESET}${GREEN} Проверка зависимостей${RESET}\n"
+# 	$(G)PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --exists gtkmm-4.0 || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtkmm-4.0. Установите его.${RESET}\n"; exit 1)
 
 get-libs:
-	$(G)test -f $(LIB_TETRIS) || (printf "${YELLOW}${BOLD}=>${RESET}${YELLOW} Получение библиотек${RESET}\n"; chmod +x get-libs.sh; ./get-libs.sh $(DEPS_DIR)/include $(LIB_DIR))
+#	$(G)wget -q https://sharlabr-projects.su/sharfiles/s21_brick_game_deps_x86_64.tar.xz
+#	$(G)tar -xf s21_brick_game_deps_x86_64.tar.xz
 
 check_gtest:
 	$(G)pkg-config --exists gtest || (printf "${RED}${BOLD}=>${RESET}${RED} Ошибка: Необходим gtest. Установите его${RESET}\n"; exit 1)
