@@ -38,7 +38,7 @@ DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders -fPIC
+COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders -fPIC -g
 CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) `PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --cflags gtkmm-4.0`
 # DEBUG:=
 CXXLIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0` -Wl,-rpath,$(LIB_DIR)
