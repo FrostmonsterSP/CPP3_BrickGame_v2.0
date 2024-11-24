@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=2.0
+Type=Application
+Name=s21 Brick Game
+NoDisplay=false
+Comment[ru]=Реализация Brick Game для проектов Школы 21
+Comment=Brick Game implementation for School 21 projects
+Icon=org.gnome.Software
+Exec=s21_brick_game
+Actions=
+StartupNotify=true
+Categories=BlocksGame;GTK;Game;
+Keywords[ru]=Тетрис;Змейка;
+Keywords=Tetris;Snake;
