@@ -35,7 +35,6 @@ class AppWindow : public Gtk::ApplicationWindow {
   Gtk::Box main_box_;
   Gtk::Stack main_stack_;
   Gtk::HeaderBar header_bar_;
-  Gtk::MenuButton menu_button_;
   SidePanel side_panel_;
   GameFrame game_box_;
   MenuBox menu_box_;

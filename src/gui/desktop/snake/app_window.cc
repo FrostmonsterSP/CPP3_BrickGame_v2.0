@@ -36,11 +36,6 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
   set_title("Brick Game v2.0");
   set_size_request(kWinWidth, kWinHeight);
 
-  menu_button_.set_visible(true);
-  menu_button_.set_direction(Gtk::ArrowType::NONE);
-
-  header_bar_.pack_start(menu_button_);
-
   main_stack_.add(menu_box_, "menu");
   main_stack_.add(game_box_, "game");
   main_stack_.set_transition_type(kTrType);
