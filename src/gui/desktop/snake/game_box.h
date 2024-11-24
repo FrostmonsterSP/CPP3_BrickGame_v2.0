@@ -11,12 +11,16 @@
 #include <gtkmm/frame.h>
 #include <gtkmm/grid.h>
 
+#include "gui.h"
+
 namespace s21 {
 
 class GameFrame : public Gtk::AspectFrame {
  public:
   GameFrame();
   ~GameFrame() override;
+  void SetUpdateFieldCallback(
+      std::function<const tetris::GameInfo_t*()>& callback);
 
  private:
   const int kFieldHeight = 20;
@@ -25,7 +29,8 @@ class GameFrame : public Gtk::AspectFrame {
 
   Gtk::Grid field_grid_;
 
- protected:
+  std::function<const tetris::GameInfo_t*()> update_field_callback_;
+
   auto BlinkingCellCallback_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
       -> bool;
 };  // class GameFrame
