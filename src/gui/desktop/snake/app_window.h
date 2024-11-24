@@ -10,6 +10,7 @@
 #include <gtkmm/stack.h>
 
 #include "game_box.h"
+#include "gui.h"
 #include "menu_box.h"
 #include "side_panel.h"
 
@@ -17,8 +18,11 @@ namespace s21 {
 
 class AppWindow : public Gtk::ApplicationWindow {
  public:
-  AppWindow(Glib::RefPtr<Gtk::Application> app);
   ~AppWindow() override = default;
+
+  AppWindow(
+      Glib::RefPtr<Gtk::Application> app,
+      std::function<const s21::tetris::GameInfo_t*()>& update_current_state);
 
  private:
   const float kRatio = 3. / 4.;
@@ -39,7 +43,11 @@ class AppWindow : public Gtk::ApplicationWindow {
   GameFrame game_box_;
   MenuBox menu_box_;
 
+  Gtk::Button header_exit_button_;
+  Gtk::Button header_pause_button_;
+
   void SwitchStackPage_();
+  void ExitGame_();
 };  // class MainWindow
 };  // namespace s21
 

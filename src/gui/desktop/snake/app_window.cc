@@ -5,7 +5,9 @@
 
 namespace s21 {
 
-AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
+AppWindow::AppWindow(
+    Glib::RefPtr<Gtk::Application> app,
+    std::function<const s21::tetris::GameInfo_t*()>& update_current_state) {
   const auto kDisplay = get_display();
   app_ = std::move(app);
 
@@ -36,12 +38,28 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
   set_title("Brick Game v2.0");
   set_size_request(kWinWidth, kWinHeight);
 
+  header_exit_button_.set_label("Exit");
+  header_pause_button_.set_label("Pause");
+  header_exit_button_.set_visible(false);
+  header_pause_button_.set_visible(false);
+
+  header_exit_button_.signal_clicked().connect(
+      sigc::mem_fun(*this, &AppWindow::ExitGame_));
+  header_pause_button_.signal_clicked().connect(
+      sigc::mem_fun(*this, &AppWindow::SwitchStackPage_));
+
+  header_bar_.pack_start(header_exit_button_);
+  header_bar_.pack_start(header_pause_button_);
+
+  menu_box_.SetStartGameCallback([this] { SwitchStackPage_(); });
+  menu_box_.SetExitCallback([this] { ExitGame_(); });
+
+  game_box_.SetUpdateFieldCallback(update_current_state);
+
   main_stack_.add(menu_box_, "menu");
   main_stack_.add(game_box_, "game");
   main_stack_.set_transition_type(kTrType);
   main_stack_.set_transition_duration(kTrDuration);
-
-  menu_box_.SetStartGameCallback([this] { SwitchStackPage_(); });
 
   main_box_.set_orientation(Gtk::Orientation::HORIZONTAL);
   main_box_.append(main_stack_);
@@ -57,9 +75,15 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
 void AppWindow::SwitchStackPage_() {
   if (main_stack_.get_visible_child_name() == "game") {
     main_stack_.set_visible_child("menu");
+    header_exit_button_.set_visible(false);
+    header_pause_button_.set_visible(false);
   } else {
     main_stack_.set_visible_child("game");
+    header_exit_button_.set_visible(true);
+    header_pause_button_.set_visible(true);
   }
 }  // AppWindow::SwitchStackPage
+
+void AppWindow::ExitGame_() { app_->quit(); }
 
 }  // namespace s21
