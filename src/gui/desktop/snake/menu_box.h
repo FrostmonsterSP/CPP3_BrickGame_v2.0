@@ -14,6 +14,7 @@ class MenuBox : public Gtk::Box {
   ~MenuBox() override;
 
   void SetStartGameCallback(const std::function<void()>& start_callback);
+  void SetExitCallback(const std::function<void()>& exit_callback);
 
  private:
   const int kMarigin = 10;
@@ -24,7 +25,10 @@ class MenuBox : public Gtk::Box {
   Gtk::Button exit_button_;
 
   std::function<void()> start_callback_;
+  std::function<void()> exit_callback_;
   void StartButtonClicked_();
+
+  void ExitButtonClicked_();
 };  // class MenuBox
 }  // namespace s21
 

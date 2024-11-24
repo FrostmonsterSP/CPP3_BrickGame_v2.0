@@ -18,6 +18,8 @@ MenuBox::MenuBox() {
 
   start_button_.signal_clicked().connect(
       sigc::mem_fun(*this, &MenuBox::StartButtonClicked_));
+  exit_button_.signal_clicked().connect(
+      sigc::mem_fun(*this, &MenuBox::ExitButtonClicked_));
 
   set_hexpand(true);
   set_orientation(Gtk::Orientation::VERTICAL);
@@ -39,9 +41,21 @@ void MenuBox::SetStartGameCallback(
   }
 }
 
+void MenuBox::SetExitCallback(const std::function<void()>& exit_callback) {
+  if (exit_callback) {
+    exit_callback_ = exit_callback;
+  }
+}
+
 void MenuBox::StartButtonClicked_() {
   if (start_callback_) {
     start_callback_();
+  }
+}
+
+void MenuBox::ExitButtonClicked_() {
+  if (exit_callback_) {
+    exit_callback_();
   }
 }
 
