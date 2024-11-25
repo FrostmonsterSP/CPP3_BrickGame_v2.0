@@ -20,32 +20,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 // NOLINTBEGIN
-#define FIELD_HEIGHT 20  ///< Высота игрового поля в клетках
-#define FIELD_WIDTH 10   ///< Ширина игрового поля в клетках
-
-#define FIGURE_HEIGHT 4  ///< Высота фигуры тетромино
-#define FIGURE_WIDTH 4   ///< Ширина фигуры тетромино
-#define FIGURE_CNT 7     ///< Количество типов фигур
-#define FIGURE_ROUNDS 4  ///< Количество возможных поворотов фигуры
-
-#define MAX_LEVEL 10     ///< Максимальный уровень игры
-#define MAX_SPEED 10     ///< Максимальная скорость игры
-#define ONE_LINE 100     ///< Очки за удаление одной линии
-#define TWO_LINES 300    ///< Очки за удаление двух линий
-#define THREE_LINES 700  ///< Очки за удаление трёх линий
-#define FOUR_LINES 1500  ///< Очки за удаление четырёх линий
-#define NEXT_LEVEL 600   ///< Количество очков для перехода на следующий уровень
-
-#define TICK_TIME 5  ///< Скорость таймера
-#define DEFAULT_SPEED \
-  (1250 / TICK_TIME)  ///< Скорость игры по умолчанию (мс между шагами)
-
-/** Макрос для подсчёта очков в зависимости от числа удалённых линий */
-#define LINE_SCORE(lines)     \
-  (lines == 1   ? ONE_LINE    \
-   : lines == 2 ? TWO_LINES   \
-   : lines == 3 ? THREE_LINES \
-                : FOUR_LINES)
 
 /**
  * @brief Состояния игры
