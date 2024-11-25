@@ -11,7 +11,7 @@
 #include <gtkmm/frame.h>
 #include <gtkmm/grid.h>
 
-#include "gui.h"
+#include "brick_game/engine_wrapper.h"
 
 namespace s21 {
 
@@ -19,20 +19,17 @@ class GameFrame : public Gtk::AspectFrame {
  public:
   GameFrame();
   ~GameFrame() override;
-  void SetUpdateFieldCallback(
-      std::function<const tetris::GameInfo_t*()>& callback);
 
  private:
-  const int kFieldHeight = 20;
-  const int kFieldWidth = 10;
-  const float kRatio = .5;
+  const int kFieldHeight = EngineWrapper::GetFieldHeight();
+  const int kFieldWidth = EngineWrapper::GetFieldWidth();
+  const float kRatio =
+      static_cast<float>(kFieldWidth) / static_cast<float>(kFieldHeight);
 
   Gtk::Grid field_grid_;
+  EngineWrapper engine_;
 
-  std::function<const tetris::GameInfo_t*()> update_field_callback_;
-
-  auto BlinkingCellCallback_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
-      -> bool;
+  auto UpdateField_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock) -> bool;
 };  // class GameFrame
 }  // namespace s21
 

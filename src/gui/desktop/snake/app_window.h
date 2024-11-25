@@ -10,7 +10,6 @@
 #include <gtkmm/stack.h>
 
 #include "game_box.h"
-#include "gui.h"
 #include "menu_box.h"
 #include "side_panel.h"
 
@@ -20,9 +19,7 @@ class AppWindow : public Gtk::ApplicationWindow {
  public:
   ~AppWindow() override = default;
 
-  AppWindow(
-      Glib::RefPtr<Gtk::Application> app,
-      std::function<const s21::tetris::GameInfo_t*()>& update_current_state);
+  AppWindow(Glib::RefPtr<Gtk::Application>);
 
  private:
   const float kRatio = 3. / 4.;

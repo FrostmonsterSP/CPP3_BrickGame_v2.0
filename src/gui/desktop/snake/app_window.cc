@@ -5,9 +5,7 @@
 
 namespace s21 {
 
-AppWindow::AppWindow(
-    Glib::RefPtr<Gtk::Application> app,
-    std::function<const s21::tetris::GameInfo_t*()>& update_current_state) {
+AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
   const auto kDisplay = get_display();
   app_ = std::move(app);
 
@@ -53,8 +51,6 @@ AppWindow::AppWindow(
 
   menu_box_.SetStartGameCallback([this] { SwitchStackPage_(); });
   menu_box_.SetExitCallback([this] { ExitGame_(); });
-
-  game_box_.SetUpdateFieldCallback(update_current_state);
 
   main_stack_.add(menu_box_, "menu");
   main_stack_.add(game_box_, "game");
