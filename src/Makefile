@@ -34,14 +34,22 @@ LIB_TETRIS=$(LIB_DIR)/libtetris.so
 LIB_SNAKE=$(LIB_DIR)/libsnake.so
 DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 
+ifeq ($(ALLDEPS), 1)
+PKG_FLAGS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --cflags gtkmm-4.0`
+PKG_LIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0` -Wl,-rpath,$(LIB_DIR)
+else
+PKG_FLAGS:=`pkg-config --cflags gtkmm-4.0`
+PKG_LIBS=`pkg-config --libs gtkmm-4.0`
+endif
+
 # Документация
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders -fPIC -g
-CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) `PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --cflags gtkmm-4.0`
-# DEBUG:=
-CXXLIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0` -ltetris-2 -Wl,-rpath,$(LIB_DIR)
+COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders $(PKG_FLAGS) -fPIC -g
+CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) 
+LTETRIS:=-ltetris-2.1
+CXXLIBS:=$(PKG_LIBS)
 TEST_LIBS=-l
 COV_FLAGS=-fprofile-arcs -ftest-coverage
 
@@ -95,7 +103,7 @@ $(INSTALL_DIR):
 # Сборка исполняемого файла
 $(EXEC): $(OBJ_DIR) $(BUILD_DIR) get-libs $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
-	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS)
+	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS) $(LTETRIS)
 
 # Сборка ресурсов Gtk
 $(OBJ_DIR)/gresources.c.o:
