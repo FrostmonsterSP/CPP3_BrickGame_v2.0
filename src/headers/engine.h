@@ -20,6 +20,10 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 // NOLINTBEGIN
+#define FIELD_HEIGHT 20  ///< Высота игрового поля в клетках
+#define FIELD_WIDTH 10   ///< Ширина игрового поля в клетках
+#define FIGURE_HEIGHT 4  ///< Высота фигуры тетромино
+#define FIGURE_WIDTH 4   ///< Ширина фигуры тетромино
 
 /**
  * @brief Состояния игры
