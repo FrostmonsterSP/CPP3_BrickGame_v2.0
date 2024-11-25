@@ -48,8 +48,8 @@ AppWindow::AppWindow(
   header_pause_button_.signal_clicked().connect(
       sigc::mem_fun(*this, &AppWindow::SwitchStackPage_));
 
-  header_bar_.pack_start(header_exit_button_);
   header_bar_.pack_start(header_pause_button_);
+  header_bar_.pack_end(header_exit_button_);
 
   menu_box_.SetStartGameCallback([this] { SwitchStackPage_(); });
   menu_box_.SetExitCallback([this] { ExitGame_(); });
