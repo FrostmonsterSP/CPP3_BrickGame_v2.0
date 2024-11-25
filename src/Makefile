@@ -20,10 +20,12 @@ BUILD_DIR=bin
 INSTALL_DIR=app
 HTML_DOC_DIR=doc/html
 GUI_DIR=gui/desktop/snake
+ENGINE_DIR=brick_game
 
 # Объектные файлы
 MAIN_OBJ:=$(patsubst %.cc, $(OBJ_DIR)/%.o, main.cc)
 GUI_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc)) $(OBJ_DIR)/gresources.c.o
+ENGINE_OBJS:=$(patsubst $(ENGINE_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(ENGINE_DIR)/*.cc))
 
 # Объектные файлы тестов
 TOBJ_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc))
@@ -46,7 +48,7 @@ endif
 HTML_DOC=$(HTML_DOC_DIR)/index.html
 GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
-COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -Iheaders $(PKG_FLAGS) -fPIC -g
+COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -I. -I$(DEPS_DIR)/include $(PKG_FLAGS) -fPIC -g
 CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) 
 LTETRIS:=-ltetris-2.1
 CXXLIBS:=$(PKG_LIBS)
@@ -101,9 +103,9 @@ $(INSTALL_DIR):
 	@if test ! -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога установки${RESET}\n"; mkdir -p $(INSTALL_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(BUILD_DIR) get-libs $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS)
+$(EXEC): $(OBJ_DIR) $(BUILD_DIR) get-libs $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS) $(ENGINE_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
-	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(MAIN_OBJ) $(GUI_OBJS) -L$(LIB_DIR) $(CXXLIBS) $(LTETRIS)
+	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(ENGINE_OBJS) $(GUI_OBJS) $(MAIN_OBJ) -L$(LIB_DIR) $(CXXLIBS) $(LTETRIS)
 
 # Сборка ресурсов Gtk
 $(OBJ_DIR)/gresources.c.o:
@@ -132,6 +134,11 @@ $(OBJ_DIR)/%.o: %.cc
 
 # Gui
 $(OBJ_DIR)/%.o: $(GUI_DIR)/%.cc
+	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
+	$(G)$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Engine
+$(OBJ_DIR)/%.o: $(ENGINE_DIR)/%.cc
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Компиляция $(notdir $<)${RESET}\n"
 	$(G)$(CXX) $(CXXFLAGS) -c $< -o $@
 
