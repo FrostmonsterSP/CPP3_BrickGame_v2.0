@@ -3,60 +3,39 @@
 //
 #include "menu_box.h"
 
+#include <utility>
+
 namespace s21 {
 
-MenuBox::MenuBox() {
-  start_button_.set_label("Start");
-  level_button_.set_label("Level");
-  speed_button_.set_label("Speed");
-  exit_button_.set_label("Exit");
-
-  start_button_.set_margin(kMarigin);
-  level_button_.set_margin(kMarigin);
-  speed_button_.set_margin(kMarigin);
-  exit_button_.set_margin(kMarigin);
-
-  start_button_.signal_clicked().connect(
-      sigc::mem_fun(*this, &MenuBox::StartButtonClicked_));
-  exit_button_.signal_clicked().connect(
-      sigc::mem_fun(*this, &MenuBox::ExitButtonClicked_));
+MenuBox::MenuBox()
+    : m_start_button_("Start"),
+      m_level_button_("Level"),
+      m_speed_button_("Speed"),
+      m_exit_button_("Exit") {
+  m_start_button_.set_margin(kMarigin);
+  m_level_button_.set_margin(kMarigin);
+  m_speed_button_.set_margin(kMarigin);
+  m_exit_button_.set_margin(kMarigin);
 
   set_hexpand(true);
   set_orientation(Gtk::Orientation::VERTICAL);
   set_valign(Gtk::Align::CENTER);
   set_halign(Gtk::Align::CENTER);
-  add_css_class("main-field");
-  append(start_button_);
-  append(level_button_);
-  append(speed_button_);
-  append(exit_button_);
+  // add_css_class("main-field");
+  append(m_start_button_);
+  append(m_level_button_);
+  append(m_speed_button_);
+  append(m_exit_button_);
 }  // MenuBox::MenuBox
-
-MenuBox::~MenuBox() = default;
 
 void MenuBox::SetStartGameCallback(
     const std::function<void()>& start_callback) {
-  if (start_callback) {
-    start_callback_ = start_callback;
-  }
+  // m_start_callback_ = start_callback;
+  m_start_button_.signal_clicked().connect(start_callback);
 }
 
 void MenuBox::SetExitCallback(const std::function<void()>& exit_callback) {
-  if (exit_callback) {
-    exit_callback_ = exit_callback;
-  }
-}
-
-void MenuBox::StartButtonClicked_() {
-  if (start_callback_) {
-    start_callback_();
-  }
-}
-
-void MenuBox::ExitButtonClicked_() {
-  if (exit_callback_) {
-    exit_callback_();
-  }
+  m_exit_button_.signal_clicked().connect(exit_callback);
 }
 
 }  // namespace s21
