@@ -141,3 +141,4 @@ src/deps
 .clangd
 .clang-tidy
 src/.clang-format
+pyvenv/
