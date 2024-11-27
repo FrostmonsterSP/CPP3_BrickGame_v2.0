@@ -3,7 +3,9 @@
 //
 #include "app_window.h"
 
+#include "cells_grid.h"
 #include "menu_box.h"
+#include "side_panel.h"
 
 namespace s21 {
 
