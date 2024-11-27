@@ -3,7 +3,6 @@
 //
 #include "app_window.h"
 
-#include "cells_grid.h"
 #include "menu_box.h"
 #include "side_panel.h"
 
@@ -13,9 +12,9 @@ const std::string AppWindow::kStyle =
     "edu/school21/BrickGame2/css/game_field.css";
 
 AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
-    : m_app_(std::move(app)) {
-  CellsGrid game_grid(m_engine_.kFieldHeight, m_engine_.kFieldWidth);
-  game_grid.SetEngine(&m_engine_);
+    : m_app_(std::move(app)),
+      m_game_grid(m_engine_.kFieldHeight, m_engine_.kFieldWidth) {
+  m_game_grid.SetEngine(&m_engine_);
   SidePanel side_panel(&m_engine_);
 
   m_menu_box_.SetStartGameCallback(
@@ -27,7 +26,7 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
   InitTitleBar_();
 
   m_main_stack_.add(m_menu_box_, "menu");
-  m_main_stack_.add(game_grid, "game");
+  m_main_stack_.add(m_game_grid, "game");
   m_main_stack_.add_css_class("main-field");
 
   m_main_frame_.set_ratio(kRatio);
@@ -113,11 +112,11 @@ void AppWindow::InitTitleBar_() {
 
 auto AppWindow::UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
     -> bool {
-  auto is_idle = !(m_engine_.IsIdle());
-  if (is_idle && frame_clock) {
+  auto not_idle = !(m_engine_.IsIdle());
+  if (not_idle && frame_clock) {
     m_engine_.UpdateGameState();
-  }  // if is_idle
-  return is_idle;
+  }  // if not_idle
+  return not_idle;
 }  // AppWindow::UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
 
 }  // namespace s21

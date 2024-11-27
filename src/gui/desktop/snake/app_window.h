@@ -7,6 +7,7 @@
 #include <gtkmm.h>
 
 #include "brick_game/engine_wrapper.h"
+#include "cells_grid.h"
 #include "menu_box.h"
 
 namespace s21 {
@@ -34,6 +35,7 @@ class AppWindow : public Gtk::ApplicationWindow {
   Gtk::Stack m_main_stack_;
   Gtk::AspectFrame m_main_frame_;
   MenuBox m_menu_box_;
+  CellsGrid m_game_grid;
   EngineWrapper m_engine_;
 
   void SwitchStackPage_();
