@@ -4,25 +4,26 @@
 #ifndef SIDE_PANEL_H
 #define SIDE_PANEL_H
 
-#include "gtkmm/box.h"
-#include "gtkmm/label.h"
+#include <gtkmm.h>
+
+#include "brick_game/engine_wrapper.h"
+#include "cells_grid.h"
 
 namespace s21 {
 class SidePanel : public Gtk::Box {
  public:
-  SidePanel();
+  SidePanel() = delete;
+  SidePanel(EngineWrapper*);
   ~SidePanel() override;
 
  private:
   const int kSpacing = 10;
-  int score_ = 0;
-  int high_score_ = 1;
-  int level_ = 2;
-  int speed_ = 3;
-  Gtk::Label score_label_;
-  Gtk::Label high_score_label_;
-  Gtk::Label level_label_;
-  Gtk::Label speed_label_;
+  Gtk::Label m_score_label_;
+  Gtk::Label m_high_score_label_;
+  Gtk::Label m_level_label_;
+  Gtk::Label m_speed_label_;
+  CellsGrid m_next_frame_;
+  EngineWrapper* m_engine_;
 };  // class SidePanel
 }  // namespace s21
 
