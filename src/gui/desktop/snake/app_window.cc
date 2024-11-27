@@ -3,25 +3,75 @@
 //
 #include "app_window.h"
 
+#include "menu_box.h"
+
 namespace s21 {
 
-AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
-  const auto kDisplay = get_display();
-  app_ = std::move(app);
+const std::string AppWindow::kStyle =
+    "edu/school21/BrickGame2/css/game_field.css";
 
-  set_display(kDisplay);
+AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
+    : m_app_(std::move(app)) {
+  CellsGrid game_grid(m_engine_.kFieldHeight, m_engine_.kFieldWidth);
+  game_grid.SetEngine(&m_engine_);
+  SidePanel side_panel(&m_engine_);
 
-  auto provider = Gtk::CssProvider::create();
-  provider->load_from_resource(kStyle);
-  Gtk::StyleProvider::add_provider_for_display(kDisplay, provider, kPriority);
+  m_menu_box_.SetStartGameCallback(
+      sigc::mem_fun(*this, &AppWindow::SwitchStackPage_));
+  m_menu_box_.SetExitCallback(sigc::mem_fun(*this, &AppWindow::ExitGame_));
 
+  InitStyle_();
+  IsDarkTheme_();
+  InitTitleBar_();
+
+  m_main_stack_.add(m_menu_box_, "menu");
+  m_main_stack_.add(game_grid, "game");
+  m_main_stack_.add_css_class("main-field");
+
+  m_main_frame_.set_ratio(kRatio);
+  m_main_frame_.set_child(m_main_stack_);
+
+  m_main_box_.append(m_main_frame_);
+  m_main_box_.append(side_panel);
+
+  add_tick_callback(sigc::mem_fun(*this, &AppWindow::UpdateState_));
+
+  set_title("Brick Game v2.0");
+  set_titlebar(m_header_bar_);
+  set_child(m_main_box_);
+}  // AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
+
+void AppWindow::SwitchStackPage_() {
+  if (m_engine_.IsIdle()) {
+    m_engine_.Action.Pause();
+  } else {
+    m_engine_.Action.Start();
+  }
+
+  if (m_main_stack_.get_visible_child_name() == "game") {
+    m_main_stack_.set_visible_child("menu");
+    m_header_exit_button_.set_visible(false);
+    m_header_pause_button_.set_visible(false);
+  } else {
+    m_main_stack_.set_visible_child("game");
+    m_header_exit_button_.set_visible(true);
+    m_header_pause_button_.set_visible(true);
+  }
+}  // AppWindow::SwitchStackPage
+
+void AppWindow::ExitGame_() {
+  m_engine_.Action.Terminate();
+  m_app_->quit();
+}
+
+void AppWindow::IsDarkTheme_() {
   auto settings = Gtk::Settings::get_default();
 
   if (settings) {
     const auto kTheme = settings->property_gtk_theme_name().get_value();
-    const bool kIsDarkThemeName = kTheme.find("dark") != std::string::npos ||
+    const auto kIsDarkThemeName = kTheme.find("dark") != std::string::npos ||
                                   kTheme.find("Dark") != std::string::npos;
-    const bool kIsDarkTheme =
+    const auto kIsDarkTheme =
         settings->property_gtk_application_prefer_dark_theme().get_value() ||
         kIsDarkThemeName;
     g_debug("Theme: %s\n", kTheme.c_str());
@@ -32,54 +82,40 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app) {
   } else {
     g_warning("Failed to get Gtk::Settings.\n");
   }  // if settings
+}  // AppWindow::IsDarkTheme_()
 
-  set_title("Brick Game v2.0");
-  set_size_request(kWinWidth, kWinHeight);
+void AppWindow::InitStyle_() {
+  const auto kDisplay = get_display();
 
-  header_exit_button_.set_label("Exit");
-  header_pause_button_.set_label("Pause");
-  header_exit_button_.set_visible(false);
-  header_pause_button_.set_visible(false);
+  set_display(kDisplay);
 
-  header_exit_button_.signal_clicked().connect(
+  auto provider = Gtk::CssProvider::create();
+  provider->load_from_resource(kStyle);
+  Gtk::StyleProvider::add_provider_for_display(kDisplay, provider, kPriority);
+}  // AppWindow::InitStyle_()
+
+void AppWindow::InitTitleBar_() {
+  m_header_exit_button_.set_label("Exit");
+  m_header_pause_button_.set_label("Pause");
+  m_header_exit_button_.set_visible(true);
+  m_header_pause_button_.set_visible(true);
+
+  m_header_exit_button_.signal_clicked().connect(
       sigc::mem_fun(*this, &AppWindow::ExitGame_));
-  header_pause_button_.signal_clicked().connect(
+  m_header_pause_button_.signal_clicked().connect(
       sigc::mem_fun(*this, &AppWindow::SwitchStackPage_));
 
-  header_bar_.pack_start(header_pause_button_);
-  header_bar_.pack_end(header_exit_button_);
+  m_header_bar_.pack_start(m_header_pause_button_);
+  m_header_bar_.pack_end(m_header_exit_button_);
+}  // AppWindow::InitTitleBar_()
 
-  menu_box_.SetStartGameCallback([this] { SwitchStackPage_(); });
-  menu_box_.SetExitCallback([this] { ExitGame_(); });
-
-  main_stack_.add(menu_box_, "menu");
-  main_stack_.add(game_box_, "game");
-  main_stack_.set_transition_type(kTrType);
-  main_stack_.set_transition_duration(kTrDuration);
-
-  main_box_.set_orientation(Gtk::Orientation::HORIZONTAL);
-  main_box_.append(main_stack_);
-  main_box_.append(side_panel_);
-
-  main_frame_.set_ratio(kRatio);
-  main_frame_.set_child(main_box_);
-
-  set_titlebar(header_bar_);
-  set_child(main_frame_);
-}  // AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
-
-void AppWindow::SwitchStackPage_() {
-  if (main_stack_.get_visible_child_name() == "game") {
-    main_stack_.set_visible_child("menu");
-    header_exit_button_.set_visible(false);
-    header_pause_button_.set_visible(false);
-  } else {
-    main_stack_.set_visible_child("game");
-    header_exit_button_.set_visible(true);
-    header_pause_button_.set_visible(true);
-  }
-}  // AppWindow::SwitchStackPage
-
-void AppWindow::ExitGame_() { app_->quit(); }
+auto AppWindow::UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
+    -> bool {
+  auto is_idle = !(m_engine_.IsIdle());
+  if (is_idle && frame_clock) {
+    m_engine_.UpdateGameState();
+  }  // if is_idle
+  return is_idle;
+}  // AppWindow::UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
 
 }  // namespace s21

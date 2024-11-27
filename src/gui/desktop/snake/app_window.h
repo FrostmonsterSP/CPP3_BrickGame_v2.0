@@ -5,47 +5,46 @@
 #define MAINWINDOW_H
 
 #include <gtkmm.h>
-#include <gtkmm/aspectframe.h>
-#include <gtkmm/enums.h>
-#include <gtkmm/stack.h>
 
-#include "game_box.h"
+#include "brick_game/engine_wrapper.h"
 #include "menu_box.h"
-#include "side_panel.h"
 
 namespace s21 {
 
 class AppWindow : public Gtk::ApplicationWindow {
  public:
-  ~AppWindow() override = default;
+  AppWindow() = delete;
 
   AppWindow(Glib::RefPtr<Gtk::Application>);
 
  private:
-  const float kRatio = 3. / 4.;
-  const int kWinHeight = 600;
-  const int kWinWidth = 425;
-  const int kTrDuration = 500;
-  const Gtk::StackTransitionType kTrType =
+  static constexpr float kRatio = 10.F / 20.F;
+  static constexpr int kTrDuration = 500;
+  static constexpr Gtk::StackTransitionType kTrType =
       Gtk::StackTransitionType::SLIDE_LEFT_RIGHT;
-  const std::string kStyle = "edu/school21/BrickGame2/css/game_field.css";
-  const int kPriority = GTK_STYLE_PROVIDER_PRIORITY_APPLICATION;
-  Glib::RefPtr<Gtk::Application> app_;
+  static const std::string kStyle;
+  static constexpr int kPriority = GTK_STYLE_PROVIDER_PRIORITY_USER;
 
-  Gtk::AspectFrame main_frame_;
-  Gtk::Box main_box_;
-  Gtk::Stack main_stack_;
-  Gtk::HeaderBar header_bar_;
-  SidePanel side_panel_;
-  GameFrame game_box_;
-  MenuBox menu_box_;
+  Glib::RefPtr<Gtk::Application> m_app_;
+  Gtk::HeaderBar m_header_bar_;
+  Gtk::Button m_header_exit_button_;
+  Gtk::Button m_header_pause_button_;
+  Gtk::Box m_main_box_;
 
-  Gtk::Button header_exit_button_;
-  Gtk::Button header_pause_button_;
+  Gtk::Stack m_main_stack_;
+  Gtk::AspectFrame m_main_frame_;
+  MenuBox m_menu_box_;
+  EngineWrapper m_engine_;
 
   void SwitchStackPage_();
   void ExitGame_();
-};  // class MainWindow
+  void IsDarkTheme_();
+  void InitStyle_();
+  void InitTitleBar_();
+  void InitSidePanel_();
+  // void InitMenuBox_(Gtk::Box* menu_box);
+  auto UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock) -> bool;
+};  // class AppWindow
 };  // namespace s21
 
 #endif  // MAINWINDOW_H
