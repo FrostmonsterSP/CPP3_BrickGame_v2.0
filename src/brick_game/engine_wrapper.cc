@@ -8,25 +8,31 @@ extern "C" {
 }
 }  // namespace engine
 
-EngineWrapper::EngineWrapper()
-    : kFieldHeight(FIELD_HEIGHT),
-      kFieldWidth(FIELD_WIDTH),
-      kNextHeight(FIGURE_HEIGHT),
-      kNextWidth(FIGURE_WIDTH),
-      m_game_info_(engine::updateCurrentState()) {}
+EngineWrapper::EngineWrapper() : m_game_info_(engine::updateCurrentState()) {}
 
 auto EngineWrapper::UpdateGameState() -> void {
   m_game_info_ = engine::updateCurrentState();
   if (m_game_info_ == nullptr) {
     throw std::runtime_error("UpdateGameState failed");
-  }
-}
+  }  // if (m_game_info_ == nullptr)
+}  // EngineWrapper::UpdateGameState()
 
 auto EngineWrapper::GetFieldCell(int row, int col) -> int {
+  if (row < 0 || row >= FIELD_HEIGHT || col < 0 || col >= FIELD_WIDTH) {
+    throw std::runtime_error("GetFieldCell: invalid coordinates");
+    return 0;
+  }
   return m_game_info_->field[row][col];
 }  // EngineWrapper::GetFieldCell(int row, int col)
 
 auto EngineWrapper::GetNextCell(int row, int col) -> int {
+  if (row < 0 || row >= FIGURE_HEIGHT || col < 0 || col >= FIGURE_WIDTH) {
+    throw std::runtime_error("GetNextCell: invalid coordinates");
+    return 0;
+  }
+  if (m_game_info_->next == nullptr) {
+    return 0;
+  }
   return m_game_info_->next[row][col];
 }  // EngineWrapper::GetNextCell(int row, int col)
 

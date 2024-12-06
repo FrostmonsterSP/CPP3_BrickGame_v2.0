@@ -6,7 +6,9 @@
 namespace s21 {
 
 namespace engine {
+extern "C" {
 #include "engine_defs.h"
+}
 }  // namespace engine
 
 struct UserActions {
@@ -28,11 +30,6 @@ class EngineWrapper {
  public:
   EngineWrapper();
   ~EngineWrapper() = default;
-
-  const int kFieldHeight;
-  const int kFieldWidth;
-  const int kNextHeight;
-  const int kNextWidth;
   UserActions Action;
   void UpdateGameState();
   auto GetFieldCell(int, int) -> int;
@@ -42,7 +39,6 @@ class EngineWrapper {
   auto GetLevel() -> int;
   auto GetSpeed() -> int;
   auto GetState() -> int;
-  auto IsStarted() -> bool;
   auto IsIdle() -> bool;
 
  private:
