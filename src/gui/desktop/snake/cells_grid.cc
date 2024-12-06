@@ -10,7 +10,14 @@
 
 namespace s21 {
 
-CellsGrid::CellsGrid(int xaxs, int yaxs) : kWinHeight(xaxs), kWinWidth(yaxs) {
+CellsGrid::CellsGrid(GridSize size, EngineWrapper& engine)
+    : CellsGrid(size, 0, engine) {};
+
+CellsGrid::CellsGrid(GridSize size, int mode, EngineWrapper& engine)
+    : kWinHeight(size.height),
+      kWinWidth(size.width),
+      kMode(mode),
+      m_engine_(engine) {
   set_column_homogeneous(true);
   set_row_homogeneous(true);
 
@@ -23,13 +30,10 @@ CellsGrid::CellsGrid(int xaxs, int yaxs) : kWinHeight(xaxs), kWinWidth(yaxs) {
 }  // CellsGrid::CellsGrid(int, int)
 
 void CellsGrid::DrawField() {
-  if (m_engine_ == nullptr) {
-    throw std::runtime_error("Engine is not initialized for field");
-    return;
-  }
   for (int row = 0; row < kWinHeight; ++row) {
     for (int col = 0; col < kWinWidth; ++col) {
-      int cell_val = m_engine_->GetFieldCell(row, col);
+      int cell_val = kMode == 0 ? m_engine_.GetFieldCell(row, col)
+                                : m_engine_.GetNextCell(row, col);
       auto* cell = get_child_at(col, row);
       if (cell_val != 0) {
         FillCell_(cell, cell_val);
@@ -38,12 +42,12 @@ void CellsGrid::DrawField() {
       }  // if (cell_val != 0)
     }  // for col
   }  // for row
-}
+}  // CellsGrid::DrawField()
 
 void CellsGrid::FillCell_(Widget* cell, const int kValue) {
   cell->add_css_class("filled");
   cell->add_css_class("f" + std::to_string(kValue));
-}
+}  // CellsGrid::FillCell_(Widget*, const int)
 
 void CellsGrid::ClearCell_(Widget* cell) {
   cell->remove_css_class("filled");
@@ -54,6 +58,6 @@ void CellsGrid::ClearCell_(Widget* cell) {
   cell->remove_css_class("f5");
   cell->remove_css_class("f6");
   cell->remove_css_class("f7");
-}
+}  // CellsGrid::ClearCell_(Widget*)
 
 }  // namespace s21

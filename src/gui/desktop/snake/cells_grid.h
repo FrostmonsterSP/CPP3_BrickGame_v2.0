@@ -10,21 +10,27 @@ namespace s21 {
 
 class EngineWrapper;
 
+struct GridSize {
+  int width;
+  int height;
+};  // struct GridSize
+
 class CellsGrid : public Gtk::Grid {
  public:
-  CellsGrid(int, int);
+  CellsGrid(GridSize, EngineWrapper& engine);
+  CellsGrid(GridSize, int, EngineWrapper& engine);
   void DrawField();
-
-  void SetEngine(EngineWrapper* engine) { m_engine_ = engine; }
+  ~CellsGrid() override = default;
 
  private:
   const int kWinHeight, kWinWidth;
   const float kRatio =
       static_cast<float>(kWinWidth) / static_cast<float>(kWinHeight);
-  EngineWrapper* m_engine_;
+  const int kMode;
+  EngineWrapper& m_engine_;
   void FillCell_(Widget* cell, int value);
   void ClearCell_(Widget* cell);
-};
+};  // class CellsGrid
 }  // namespace s21
 
 #endif  // NEXT_WIN_H
