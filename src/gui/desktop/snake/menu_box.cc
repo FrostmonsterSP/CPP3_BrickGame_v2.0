@@ -19,7 +19,7 @@ MenuBox::MenuBox()
   set_orientation(Gtk::Orientation::VERTICAL);
   set_valign(Gtk::Align::CENTER);
   set_halign(Gtk::Align::CENTER);
-  // add_css_class("main-field");
+
   append(m_start_button_);
   append(m_level_button_);
   append(m_speed_button_);
