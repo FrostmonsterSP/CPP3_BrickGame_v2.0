@@ -9,6 +9,7 @@
 #include "brick_game/engine_wrapper.h"
 #include "cells_grid.h"
 #include "menu_box.h"
+#include "side_panel.h"
 
 namespace s21 {
 
@@ -27,6 +28,7 @@ class AppWindow : public Gtk::ApplicationWindow {
   static constexpr int kPriority = GTK_STYLE_PROVIDER_PRIORITY_USER;
 
   Glib::RefPtr<Gtk::Application> m_app_;
+  EngineWrapper m_engine_;
   Gtk::HeaderBar m_header_bar_;
   Gtk::Button m_header_exit_button_;
   Gtk::Button m_header_pause_button_;
@@ -35,8 +37,8 @@ class AppWindow : public Gtk::ApplicationWindow {
   Gtk::Stack m_main_stack_;
   Gtk::AspectFrame m_main_frame_;
   MenuBox m_menu_box_;
-  CellsGrid m_game_grid;
-  EngineWrapper m_engine_;
+  CellsGrid m_game_grid_;
+  SidePanel m_side_panel_;
 
   void SwitchStackPage_();
   void ExitGame_();
@@ -44,7 +46,7 @@ class AppWindow : public Gtk::ApplicationWindow {
   void InitStyle_();
   void InitTitleBar_();
   void InitSidePanel_();
-  // void InitMenuBox_(Gtk::Box* menu_box);
+
   auto UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock) -> bool;
 };  // class AppWindow
 };  // namespace s21

@@ -3,8 +3,8 @@
 //
 #include "app_window.h"
 
+#include "engine_defs.h"
 #include "menu_box.h"
-#include "side_panel.h"
 
 namespace s21 {
 
@@ -13,10 +13,8 @@ const std::string AppWindow::kStyle =
 
 AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
     : m_app_(std::move(app)),
-      m_game_grid(m_engine_.kFieldHeight, m_engine_.kFieldWidth) {
-  m_game_grid.SetEngine(&m_engine_);
-  SidePanel side_panel(&m_engine_);
-
+      m_game_grid_(GridSize{FIELD_WIDTH, FIELD_HEIGHT}, m_engine_),
+      m_side_panel_(m_engine_) {
   m_menu_box_.SetStartGameCallback(
       sigc::mem_fun(*this, &AppWindow::SwitchStackPage_));
   m_menu_box_.SetExitCallback(sigc::mem_fun(*this, &AppWindow::ExitGame_));
@@ -26,14 +24,14 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
   InitTitleBar_();
 
   m_main_stack_.add(m_menu_box_, "menu");
-  m_main_stack_.add(m_game_grid, "game");
+  m_main_stack_.add(m_game_grid_, "game");
   m_main_stack_.add_css_class("main-field");
 
   m_main_frame_.set_ratio(kRatio);
   m_main_frame_.set_child(m_main_stack_);
 
   m_main_box_.append(m_main_frame_);
-  m_main_box_.append(side_panel);
+  m_main_box_.append(m_side_panel_);
 
   add_tick_callback(sigc::mem_fun(*this, &AppWindow::UpdateState_));
 
@@ -47,7 +45,7 @@ void AppWindow::SwitchStackPage_() {
     m_engine_.Action.Pause();
   } else {
     m_engine_.Action.Start();
-  }
+  }  // if (m_engine_.IsIdle())
 
   if (m_main_stack_.get_visible_child_name() == "game") {
     m_main_stack_.set_visible_child("menu");
@@ -57,7 +55,7 @@ void AppWindow::SwitchStackPage_() {
     m_main_stack_.set_visible_child("game");
     m_header_exit_button_.set_visible(true);
     m_header_pause_button_.set_visible(true);
-  }
+  }  // if (m_main_stack_.get_visible_child_name() == "game")
 }  // AppWindow::SwitchStackPage
 
 void AppWindow::ExitGame_() {
@@ -79,7 +77,7 @@ void AppWindow::IsDarkTheme_() {
     g_debug("Is dark theme: %s\n", kIsDarkTheme ? "true" : "false");
     if (kIsDarkTheme) {
       add_css_class("dark-mode");
-    }
+    }  // if kIsDarkTheme
   } else {
     g_warning("Failed to get Gtk::Settings.\n");
   }  // if settings
@@ -98,8 +96,8 @@ void AppWindow::InitStyle_() {
 void AppWindow::InitTitleBar_() {
   m_header_exit_button_.set_label("Exit");
   m_header_pause_button_.set_label("Pause");
-  m_header_exit_button_.set_visible(true);
-  m_header_pause_button_.set_visible(true);
+  m_header_exit_button_.set_visible(false);
+  m_header_pause_button_.set_visible(false);
 
   m_header_exit_button_.signal_clicked().connect(
       sigc::mem_fun(*this, &AppWindow::ExitGame_));
@@ -112,11 +110,12 @@ void AppWindow::InitTitleBar_() {
 
 auto AppWindow::UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
     -> bool {
-  auto not_idle = !(m_engine_.IsIdle());
-  if (not_idle && frame_clock) {
+  if (frame_clock) {
     m_engine_.UpdateGameState();
-  }  // if not_idle
-  return not_idle;
+    m_game_grid_.DrawField();
+    m_side_panel_.DrawPanel();
+  }  // if frame_clock
+  return true;
 }  // AppWindow::UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock)
 
 }  // namespace s21
