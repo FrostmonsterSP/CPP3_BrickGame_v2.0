@@ -7,6 +7,10 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 
+#include "gtkmm/grid.h"
+#include "gtkmm/label.h"
+#include "gtkmm/layoutmanager.h"
+
 namespace s21 {
 class MenuBox : public Gtk::Box {
  public:
@@ -16,16 +20,24 @@ class MenuBox : public Gtk::Box {
 
   void SetExitCallback(const std::function<void()>& exit_callback);
 
+  void SetLevelCallbacks(const std::function<void()>& up_callback,
+                         const std::function<void()>& down_callback);
+  void SetSpeedCallbacks(const std::function<void()>& up_callback,
+                         const std::function<void()>& down_callback);
+
  private:
-  const int kMarigin = 10;
-
-  Gtk::Button m_start_button_;
-  Gtk::Button m_level_button_;
-  Gtk::Button m_speed_button_;
-  Gtk::Button m_exit_button_;
-
-  std::function<void()> m_start_callback_;
-  std::function<void()> m_exit_callback_;
+  const int kMargin = 10;
+  Gtk::Button start_button_;
+  Gtk::Grid config_grid_;
+  Gtk::Box level_config_box_;
+  Gtk::Box speed_config_box_;
+  Gtk::Label level_label_;
+  Gtk::Label speed_label_;
+  Gtk::Button level_up_button_;
+  Gtk::Button level_down_button_;
+  Gtk::Button speed_up_button_;
+  Gtk::Button speed_down_button_;
+  Gtk::Button exit_button_;
 };  // class MenuBox
 }  // namespace s21
 

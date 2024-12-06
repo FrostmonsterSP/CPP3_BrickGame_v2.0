@@ -34,20 +34,15 @@ void CellsGrid::DrawField() {
     for (int col = 0; col < kWinWidth; ++col) {
       int cell_val = kMode == 0 ? m_engine_.GetFieldCell(row, col)
                                 : m_engine_.GetNextCell(row, col);
-      auto* cell = get_child_at(col, row);
+      Widget* cell = get_child_at(col, row);
+      ClearCell_(cell);
       if (cell_val != 0) {
-        FillCell_(cell, cell_val);
-      } else {
-        ClearCell_(cell);
+        cell->add_css_class("filled");
+        cell->add_css_class("f" + std::to_string(cell_val));
       }  // if (cell_val != 0)
     }  // for col
   }  // for row
 }  // CellsGrid::DrawField()
-
-void CellsGrid::FillCell_(Widget* cell, const int kValue) {
-  cell->add_css_class("filled");
-  cell->add_css_class("f" + std::to_string(kValue));
-}  // CellsGrid::FillCell_(Widget*, const int)
 
 void CellsGrid::ClearCell_(Widget* cell) {
   cell->remove_css_class("filled");

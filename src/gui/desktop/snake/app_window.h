@@ -27,27 +27,34 @@ class AppWindow : public Gtk::ApplicationWindow {
   static const std::string kStyle;
   static constexpr int kPriority = GTK_STYLE_PROVIDER_PRIORITY_USER;
 
-  Glib::RefPtr<Gtk::Application> m_app_;
-  EngineWrapper m_engine_;
-  Gtk::HeaderBar m_header_bar_;
-  Gtk::Button m_header_exit_button_;
-  Gtk::Button m_header_pause_button_;
-  Gtk::Box m_main_box_;
-
-  Gtk::Stack m_main_stack_;
-  Gtk::AspectFrame m_main_frame_;
-  MenuBox m_menu_box_;
-  CellsGrid m_game_grid_;
-  SidePanel m_side_panel_;
+  Glib::RefPtr<Gtk::Application> app_;
+  Glib::RefPtr<Gtk::EventControllerKey> controller_;
+  EngineWrapper engine_;
+  Gtk::HeaderBar header_bar_;
+  Gtk::Button header_exit_button_;
+  Gtk::Button header_pause_button_;
+  Gtk::Box main_box_;
+  Gtk::Stack main_stack_;
+  Gtk::AspectFrame main_frame_;
+  MenuBox menu_box_;
+  CellsGrid game_grid_;
+  SidePanel side_panel_;
 
   void SwitchStackPage_();
   void ExitGame_();
+  void ExitApp_();
+  void IncreaseLevelAtInit_();
+  void DecreaseLevelAtInit_();
+  void IncreaseSpeedAtInit_();
+  void DecreaseSpeedAtInit_();
+  void StartOrPauseGame_();
+  void SwitchController_();
   void IsDarkTheme_();
   void InitStyle_();
   void InitTitleBar_();
   void InitSidePanel_();
-
-  auto UpdateState_(const Glib::RefPtr<Gdk::FrameClock>& frame_clock) -> bool;
+  auto UpdateState_(const Glib::RefPtr<Gdk::FrameClock>&) -> bool;
+  auto OnKeyPressed_(guint, guint, Gdk::ModifierType) -> bool;
 };  // class AppWindow
 };  // namespace s21
 

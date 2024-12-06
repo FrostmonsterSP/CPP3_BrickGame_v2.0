@@ -28,8 +28,7 @@ class CellsGrid : public Gtk::Grid {
       static_cast<float>(kWinWidth) / static_cast<float>(kWinHeight);
   const int kMode;
   EngineWrapper& m_engine_;
-  void FillCell_(Widget* cell, int value);
-  void ClearCell_(Widget* cell);
+  static void ClearCell_(Widget* cell);
 };  // class CellsGrid
 }  // namespace s21
 

@@ -40,6 +40,7 @@ class EngineWrapper {
   auto GetSpeed() -> int;
   auto GetState() -> int;
   auto IsIdle() -> bool;
+  auto IsInit() -> bool;
 
  private:
   const engine::GameInfo_t *m_game_info_;

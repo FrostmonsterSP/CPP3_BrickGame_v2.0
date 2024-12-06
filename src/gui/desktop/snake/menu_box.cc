@@ -6,34 +6,63 @@
 namespace s21 {
 
 MenuBox::MenuBox()
-    : m_start_button_("Start"),
-      m_level_button_("Level"),
-      m_speed_button_("Speed"),
-      m_exit_button_("Exit") {
-  m_start_button_.set_margin(kMarigin);
-  m_level_button_.set_margin(kMarigin);
-  m_speed_button_.set_margin(kMarigin);
-  m_exit_button_.set_margin(kMarigin);
-
+    : start_button_("Start"),
+      level_label_("Level"),
+      speed_label_("Speed"),
+      level_up_button_("+"),
+      level_down_button_("-"),
+      speed_up_button_("+"),
+      speed_down_button_("-"),
+      exit_button_("Exit") {
   set_hexpand(true);
   set_orientation(Gtk::Orientation::VERTICAL);
   set_valign(Gtk::Align::CENTER);
   set_halign(Gtk::Align::CENTER);
 
-  append(m_start_button_);
-  append(m_level_button_);
-  append(m_speed_button_);
-  append(m_exit_button_);
+  config_grid_.set_margin(kMargin);
+  config_grid_.set_column_spacing(kMargin);
+  config_grid_.set_row_spacing(kMargin);
+  start_button_.set_margin(kMargin);
+  exit_button_.set_margin(kMargin);
+
+  config_grid_.attach(level_down_button_, 0, 0);
+  config_grid_.attach(level_label_, 1, 0);
+  config_grid_.attach(level_up_button_, 2, 0);
+  config_grid_.attach(speed_down_button_, 0, 1);
+  config_grid_.attach(speed_label_, 1, 1);
+  config_grid_.attach(speed_up_button_, 2, 1);
+
+  append(start_button_);
+  append(config_grid_);
+  append(exit_button_);
 }  // MenuBox::MenuBox
 
 void MenuBox::SetStartGameCallback(
     const std::function<void()>& start_callback) {
-  // m_start_callback_ = start_callback;
-  m_start_button_.signal_clicked().connect(start_callback);
-}
+  start_button_.signal_clicked().connect(start_callback);
+}  // MenuBox::SetStartGameCallback
 
 void MenuBox::SetExitCallback(const std::function<void()>& exit_callback) {
-  m_exit_button_.signal_clicked().connect(exit_callback);
-}
+  exit_button_.signal_clicked().connect(exit_callback);
+}  // MenuBox::SetExitCallback
 
+void MenuBox::SetLevelCallbacks(const std::function<void()>& up_callback,
+                                const std::function<void()>& down_callback) {
+  if (up_callback != nullptr) {
+    level_up_button_.signal_clicked().connect(up_callback);
+  }  // if (up_callback != nullptr)
+  if (down_callback != nullptr) {
+    level_down_button_.signal_clicked().connect(down_callback);
+  }  // if (down_callback != nullptr)
+}  // MenuBox::SetLevelCallbacks
+
+void MenuBox::SetSpeedCallbacks(const std::function<void()>& up_callback,
+                                const std::function<void()>& down_callback) {
+  if (up_callback != nullptr) {
+    speed_up_button_.signal_clicked().connect(up_callback);
+  }  // if (up_callback != nullptr)
+  if (down_callback != nullptr) {
+    speed_down_button_.signal_clicked().connect(down_callback);
+  }  // if (down_callback != nullptr)
+}  // MenuBox::SetSpeedCallbacks
 }  // namespace s21

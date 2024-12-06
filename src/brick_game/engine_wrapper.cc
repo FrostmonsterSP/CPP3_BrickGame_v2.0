@@ -30,10 +30,11 @@ auto EngineWrapper::GetNextCell(int row, int col) -> int {
     throw std::runtime_error("GetNextCell: invalid coordinates");
     return 0;
   }
-  if (m_game_info_->next == nullptr) {
-    return 0;
+  int cell_val = 0;  // m_game_info_->next[row][col];
+  if (m_game_info_->next != nullptr && !IsInit()) {
+    cell_val = m_game_info_->next[row][col];
   }
-  return m_game_info_->next[row][col];
+  return cell_val;
 }  // EngineWrapper::GetNextCell(int row, int col)
 
 auto EngineWrapper::GetScore() -> int { return m_game_info_->score; }
@@ -49,6 +50,10 @@ auto EngineWrapper::GetState() -> int { return m_game_info_->state; }
 auto EngineWrapper::IsIdle() -> bool {
   return m_game_info_->state == engine::GameState_t::StateIdle;
 }  // EngineWrapper::IsIdle()
+
+auto EngineWrapper::IsInit() -> bool {
+  return m_game_info_->state == engine::GameState_t::StateInit;
+}
 
 void UserActions::Terminate() {
   engine::userInput(engine::UserAction_t::Terminate);
