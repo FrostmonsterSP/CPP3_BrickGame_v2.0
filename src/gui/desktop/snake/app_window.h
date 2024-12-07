@@ -39,6 +39,7 @@ class AppWindow : public Gtk::ApplicationWindow {
   MenuBox menu_box_;
   CellsGrid game_grid_;
   SidePanel side_panel_;
+  guint tick_id_;
 
   void SwitchStackPage_();
   void ExitGame_();

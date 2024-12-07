@@ -32,14 +32,14 @@ AppWindow::AppWindow(Glib::RefPtr<Gtk::Application> app)
   main_stack_.add(menu_box_, "menu");
   main_stack_.add(game_grid_, "game");
   main_stack_.add_css_class("main-field");
+  main_stack_.set_transition_duration(kTrDuration);
+  main_stack_.set_transition_type(kTrType);
 
   main_frame_.set_ratio(kRatio);
   main_frame_.set_child(main_stack_);
 
   main_box_.append(main_frame_);
   main_box_.append(side_panel_);
-
-  add_tick_callback(sigc::mem_fun(*this, &AppWindow::UpdateState_));
 
   set_title("Brick Game v2.0");
   set_titlebar(header_bar_);
@@ -52,16 +52,21 @@ void AppWindow::SwitchStackPage_() {
     main_stack_.set_visible_child("menu");
     header_exit_button_.set_visible(false);
     header_pause_button_.set_visible(false);
+    remove_tick_callback(tick_id_);
   } else {
     main_stack_.set_visible_child("game");
     header_exit_button_.set_visible(true);
     header_pause_button_.set_visible(true);
+    tick_id_ =
+        add_tick_callback(sigc::mem_fun(*this, &AppWindow::UpdateState_));
   }  // if main_stack_.get_visible_child_name() == "game"
 }  // AppWindow::SwitchStackPage
 
 void AppWindow::StartOrPauseGame_() {
   if (engine_.IsInit()) {
-    engine_.Action.Start();
+    if (main_stack_.get_visible_child_name() != "game") {
+      engine_.Action.Start();
+    }
   } else {
     engine_.Action.Pause();
   }
@@ -91,9 +96,7 @@ void AppWindow::ExitApp_() {
 }  // AppWindow::ExitApp_
 
 void AppWindow::IncreaseLevelAtInit_() { engine_.Action.Right(); }
-
 void AppWindow::DecreaseLevelAtInit_() { engine_.Action.Left(); }
-
 void AppWindow::IncreaseSpeedAtInit_() { engine_.Action.Up(); }
 void AppWindow::DecreaseSpeedAtInit_() { engine_.Action.Down(); }
 
@@ -133,7 +136,7 @@ void AppWindow::InitStyle_() {
 }  // AppWindow::InitStyle_
 
 void AppWindow::InitTitleBar_() {
-  header_exit_button_.set_label("Exit");
+  header_exit_button_.set_label("Stop");
   header_pause_button_.set_label("Pause");
   header_exit_button_.set_can_focus(false);
   header_pause_button_.set_can_focus(false);
@@ -163,9 +166,6 @@ auto AppWindow::OnKeyPressed_(guint keyval, guint /*unused*/,
                               Gdk::ModifierType /*unused*/) -> bool {
   bool retval = false;
   switch (keyval) {
-    case GDK_KEY_Escape:
-      retval = true;
-      break;
     case GDK_KEY_Left:
       retval = true;
       engine_.Action.Left();
