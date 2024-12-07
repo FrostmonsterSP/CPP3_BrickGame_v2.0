@@ -45,14 +45,24 @@ void CellsGrid::DrawField() {
 }  // CellsGrid::DrawField()
 
 void CellsGrid::ClearCell_(Widget* cell) {
-  cell->remove_css_class("filled");
-  cell->remove_css_class("f1");
-  cell->remove_css_class("f2");
-  cell->remove_css_class("f3");
-  cell->remove_css_class("f4");
-  cell->remove_css_class("f5");
-  cell->remove_css_class("f6");
-  cell->remove_css_class("f7");
+  auto classes = cell->get_css_classes();
+  bool is_filled = false;
+  for (auto& cls : classes) {
+    if (cls.find("filled") != std::string::npos) {
+      is_filled = true;
+      break;
+    }
+  }
+  if (is_filled) {
+    cell->remove_css_class("filled");
+    cell->remove_css_class("f1");
+    cell->remove_css_class("f2");
+    cell->remove_css_class("f3");
+    cell->remove_css_class("f4");
+    cell->remove_css_class("f5");
+    cell->remove_css_class("f6");
+    cell->remove_css_class("f7");
+  }
 }  // CellsGrid::ClearCell_(Widget*)
 
 }  // namespace s21
