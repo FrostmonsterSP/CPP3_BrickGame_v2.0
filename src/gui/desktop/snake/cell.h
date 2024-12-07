@@ -7,9 +7,10 @@
 #include <gtkmm.h>
 
 namespace s21 {
-class Cell : public Gtk::Button {
+class Cell final : public Gtk::Button {
  public:
   Cell();
+  ~Cell() override = default;
 };  // class Cell
 };  // namespace s21
 
