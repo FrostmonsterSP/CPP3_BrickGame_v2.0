@@ -6,7 +6,7 @@
 namespace s21 {
 
 MenuBox::MenuBox()
-    : start_button_("Start"),
+    : start_button_("Play"),
       level_label_("Level"),
       speed_label_("Speed"),
       level_up_button_("+"),
