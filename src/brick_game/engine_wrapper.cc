@@ -45,12 +45,6 @@ auto EngineWrapper::GetLevel() -> int { return m_game_info_->level; }
 
 auto EngineWrapper::GetSpeed() -> int { return m_game_info_->speed; }
 
-auto EngineWrapper::GetState() -> int { return m_game_info_->state; }
-
-auto EngineWrapper::IsIdle() -> bool {
-  return m_game_info_->state == engine::GameState_t::StateIdle;
-}  // EngineWrapper::IsIdle()
-
 auto EngineWrapper::IsInit() -> bool {
   return m_game_info_->state == engine::GameState_t::StateInit;
 }

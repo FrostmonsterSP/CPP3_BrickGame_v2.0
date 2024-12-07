@@ -38,8 +38,6 @@ class EngineWrapper {
   auto GetHighScore() -> int;
   auto GetLevel() -> int;
   auto GetSpeed() -> int;
-  auto GetState() -> int;
-  auto IsIdle() -> bool;
   auto IsInit() -> bool;
 
  private:
