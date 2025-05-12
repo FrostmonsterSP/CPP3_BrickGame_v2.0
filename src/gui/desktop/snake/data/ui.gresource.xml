@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.96.0 -->
+<gresources>
+  <gresource prefix="edu/school21/BrickGame2/data">
+    <file compressed="true" preprocess="xml-stripblanks">interface.ui</file>
+    <file compressed="true">css/interface.css</file>
+    <file compressed="true">css/game_field.css</file>
+  </gresource>
+</gresources>

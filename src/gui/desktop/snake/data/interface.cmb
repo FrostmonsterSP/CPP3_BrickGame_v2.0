@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
+<!-- Created with Cambalache 0.96.0 -->
+<cambalache-project version="0.96.0" target_tk="gtk-4.0">
+  <gresources filename="ui.gresource.xml" sha256="a24d0cfa9ac17a6e6ddc21c15394525fa94880dfb356ade38cfc9fec6bf25746"/>
+  <css filename="css/interface.css"/>
+  <ui filename="interface.ui" sha256="66fe94aa6f9a52db877a4a2696a6e925c0d85acc0cfb7d8350cf571546835001">
+    <css-provider>css/interface.css</css-provider>
+  </ui>
+</cambalache-project>
