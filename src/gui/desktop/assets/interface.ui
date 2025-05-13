@@ -3,9 +3,9 @@
 <interface>
   <!-- interface-name interface.ui -->
   <requires lib="gtk" version="4.14"/>
-  <object class="GtkApplicationWindow">
+  <object class="GtkApplicationWindow" id="app_window">
     <property name="child">
-      <object class="GtkStack">
+      <object class="GtkStack" id="main_stack">
         <property name="transition-type">rotate-left-right</property>
         <child>
           <object class="GtkStackPage">

@@ -1,3 +1,8 @@
+.main-text {
+	font-weight: bold;
+	font-size: 2em;
+}
+
  /* * {
     --cell-color1: #0341ae;
     --cell-color2: #72cb3b;
