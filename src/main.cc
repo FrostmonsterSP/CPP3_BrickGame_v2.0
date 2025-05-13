@@ -1,8 +1,6 @@
-#include <gtkmm.h>
+#include "gui/desktop/game_app.h"
 
-#include "gui/desktop/snake/app_window.h"
-
-auto main(int argc, char *argv[]) -> int {
-  auto app = Gtk::Application::create("edu.school21.BrickGame2");
-  return app->make_window_and_run<s21::AppWindow>(argc, argv, app);
+auto main(int argc, char* argv[]) -> int {
+  auto application = GameApplication::Create();
+  return application->run(argc, argv);
 }
