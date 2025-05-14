@@ -28,8 +28,10 @@ void GameAppWindow::InitStyle_() {
     set_display(kDisplay);
 
     auto provider = Gtk::CssProvider::create();
-    provider->load_from_resource(kStyle);
-    Gtk::StyleProvider::add_provider_for_display(kDisplay, provider, kPriority);
+    provider->load_from_resource(
+        "/edu/school21/BrickGame2/assets/css/interface.css");
+    Gtk::StyleProvider::add_provider_for_display(
+        kDisplay, provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
   } catch (const Glib::Error& e) {
     g_warning("Failed to load CSS: %s\n", e.what());
   } catch (const std::exception& e) {
