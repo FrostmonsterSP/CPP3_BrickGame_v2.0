@@ -11,7 +11,6 @@ class GameApplication : public Gtk::Application {
 
  public:
   static auto Create() -> Glib::RefPtr<GameApplication>;
-  void OpenFileView(const Glib::RefPtr<Gio::File>& file);
 
  protected:
   void on_activate() override;
