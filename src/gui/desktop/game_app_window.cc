@@ -36,3 +36,23 @@ void GameAppWindow::InitStyle_() {
     g_error("Unexpected error loading style: %s\n", e.what());
   }
 }  // GameAppWindow::InitStyle_
+
+void GameAppWindow::InitMainMenu_() {
+  auto* main_stack = ref_builder_m->get_widget<Gtk::Stack>("main_stack");
+
+  auto* tetris_button = ref_builder_m->get_widget<Gtk::Button>("tetris_button");
+  if (main_stack != nullptr) {
+    tetris_button->signal_clicked().connect(
+        [main_stack]() { LoadingHandler_(main_stack); });
+  } else {
+    g_error("No \"main_stack\" object in interface.ui");
+  }
+}
+
+void GameAppWindow::LoadingHandler_(Gtk::Stack* main_stack) {
+
+  main_stack->set_visible_child("loading_page");
+  Glib::signal_timeout().connect_once(
+      [main_stack]() { main_stack->set_visible_child("game_menu_page"); },
+      3000);
+}
