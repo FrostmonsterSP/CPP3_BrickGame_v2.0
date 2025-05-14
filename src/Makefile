@@ -19,12 +19,12 @@ REPORT_DIR=report
 BUILD_DIR=bin
 INSTALL_DIR=app
 HTML_DOC_DIR=doc/html
-GUI_DIR=gui/desktop/snake
+GUI_DIR=gui/desktop
 ENGINE_DIR=brick_game
 
 # Объектные файлы
 MAIN_OBJ:=$(patsubst %.cc, $(OBJ_DIR)/%.o, main.cc)
-GUI_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc)) $(OBJ_DIR)/gresources.c.o
+GUI_OBJS:=$(patsubst $(GUI_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(GUI_DIR)/*.cc)) $(OBJ_DIR)/ui.gresource.c.o
 ENGINE_OBJS:=$(patsubst $(ENGINE_DIR)/%.cc, $(OBJ_DIR)/%.o, $(wildcard $(ENGINE_DIR)/*.cc))
 
 # Объектные файлы тестов
@@ -36,13 +36,10 @@ LIB_TETRIS=$(LIB_DIR)/libtetris.so
 LIB_SNAKE=$(LIB_DIR)/libsnake.so
 DISTFILE=$(PROJECT_NAME)-$(PROJECT_VER).$(shell uname -m).tar.gz
 
-ifeq ($(ALLDEPS), 1)
-PKG_FLAGS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --cflags gtkmm-4.0`
-PKG_LIBS:=`PKG_CONFIG_PATH=./deps/lib/pkgconfig pkg-config --libs gtkmm-4.0` -Wl,-rpath,$(LIB_DIR)
-else
+#Зависимости
+export PKG_CONFIG_PATH := /usr/local/lib/pkgconfig:./dependencies/lib/pkgconfig
 PKG_FLAGS:=`pkg-config --cflags gtkmm-4.0`
-PKG_LIBS=`pkg-config --libs gtkmm-4.0`
-endif
+PKG_LIBS:=`pkg-config --libs gtkmm-4.0` -Wl,-rpath,$(LIB_DIR)
 
 # Документация
 HTML_DOC=$(HTML_DOC_DIR)/index.html
@@ -50,7 +47,7 @@ GCOV_REPORT=$(REPORT_DIR)/coverage.html
 
 COMPILE_FLAGS:=-Wall -Werror -Wextra -Wpedantic -I. -I$(DEPS_DIR)/include $(PKG_FLAGS) -fPIC -g
 CXXFLAGS:=$(CXXFLAGS) -std=c++17 $(COMPILE_FLAGS) 
-LTETRIS:=-ltetris-2.1
+LTETRIS:=-ltetris
 CXXLIBS:=$(PKG_LIBS)
 TEST_LIBS=-l
 COV_FLAGS=-fprofile-arcs -ftest-coverage
@@ -103,16 +100,16 @@ $(INSTALL_DIR):
 	@if test ! -d $(INSTALL_DIR); then printf "${PURPLE}${BOLD}=>${RESET}${PURPLE} Создание каталога установки${RESET}\n"; mkdir -p $(INSTALL_DIR); fi
 
 # Сборка исполняемого файла
-$(EXEC): $(OBJ_DIR) $(BUILD_DIR) get-libs $(OBJ_DIR)/gresources.c.o $(MAIN_OBJ) $(GUI_OBJS) $(ENGINE_OBJS)
+$(EXEC): $(OBJ_DIR) $(BUILD_DIR) get-libs $(OBJ_DIR)/ui.gresource.c.o $(MAIN_OBJ) $(GUI_OBJS) $(ENGINE_OBJS)
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка исполняемого файла $@${RESET}\n"
 	$(G)$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ $(ENGINE_OBJS) $(GUI_OBJS) $(MAIN_OBJ) -L$(LIB_DIR) $(CXXLIBS) $(LTETRIS)
 
 # Сборка ресурсов Gtk
-$(OBJ_DIR)/gresources.c.o:
+$(OBJ_DIR)/ui.gresource.c.o:
 	@printf "${BLUE}${BOLD}=>${RESET}${BLUE} Сборка ресурсов Gtk${RESET}\n"
-	$(G)glib-compile-resources --generate-source --target=gresources.c $(GUI_DIR)/gresources.xml --sourcedir $(GUI_DIR)
-	$(G)$(CC) $(COMPILE_FLAGS) `pkg-config --cflags glib-2.0` -c gresources.c -o $(OBJ_DIR)/gresources.c.o
-	$(G)$(RM) gresources.c
+	$(G)glib-compile-resources --generate-source --target=ui.gresource.c $(GUI_DIR)/assets/ui.gresource.xml --sourcedir $(GUI_DIR)
+	$(G)$(CC) $(COMPILE_FLAGS) `pkg-config --cflags glib-2.0` -c ui.gresource.c -o $(OBJ_DIR)/ui.gresource.c.o
+	$(G)$(RM) ui.gresource.c
 
 # Сборка тестов
 test: $(OBJ_DIR) 
