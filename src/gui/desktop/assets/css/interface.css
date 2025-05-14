@@ -3,6 +3,10 @@
 	font-size: 2em;
 }
 
+.button-text {
+	font-weight: bold;
+}
+
  /* * {
     --cell-color1: #0341ae;
     --cell-color2: #72cb3b;

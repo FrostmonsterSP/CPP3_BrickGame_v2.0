@@ -4,6 +4,5 @@
   <gresource prefix="edu/school21/BrickGame2">
     <file compressed="true" preprocess="xml-stripblanks">assets/interface.ui</file>
     <file compressed="true">assets/css/interface.css</file>
-    <file compressed="true">assets/css/game_field.css</file>
   </gresource>
 </gresources>

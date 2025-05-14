@@ -8,9 +8,9 @@
       <object class="GtkStack" id="main_stack">
         <property name="transition-type">rotate-left-right</property>
         <child>
-          <object class="GtkStackPage">
+          <object class="GtkStackPage" id="main_page">
             <property name="child">
-              <object class="GtkBox">
+              <object class="GtkBox" id="main_menu_box">
                 <property name="halign">center</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">4</property>
@@ -24,31 +24,27 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="tetris_button">
                     <property name="can-shrink">True</property>
+                    <property name="css-classes">button-text</property>
                     <property name="label" translatable="yes" context="tetris_txt">Tetris</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="snake_btn">
                     <property name="can-shrink">True</property>
+                    <property name="css-classes">button-text</property>
                     <property name="label" translatable="yes" context="snake_txt">Snake</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <property name="can-shrink">True</property>
-                    <property name="label" translatable="yes" context="exit_txt">Exit</property>
-                    <property name="margin-top">25</property>
                   </object>
                 </child>
                 <style/>
               </object>
             </property>
+            <property name="name">main_page</property>
           </object>
         </child>
         <child>
-          <object class="GtkStackPage">
+          <object class="GtkStackPage" id="loading_page">
             <property name="child">
               <object class="GtkBox">
                 <property name="halign">center</property>
@@ -69,10 +65,11 @@
                 <style/>
               </object>
             </property>
+            <property name="name">loading_page</property>
           </object>
         </child>
         <child>
-          <object class="GtkStackPage">
+          <object class="GtkStackPage" id="game_menu_page">
             <property name="child">
               <object class="GtkBox">
                 <property name="halign">center</property>
@@ -82,17 +79,12 @@
                 <child>
                   <object class="GtkButton">
                     <property name="can-shrink">True</property>
+                    <property name="css-classes">button-text</property>
                     <property name="label" translatable="yes" context="play_txt">Play Game</property>
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
-                    <property name="can-shrink">True</property>
-                    <property name="label" translatable="yes" context="change_game_txt">Change Game</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkCenterBox">
+                  <object class="GtkCenterBox" id="level_bx">
                     <property name="center-widget">
                       <object class="GtkLabel">
                         <property name="ellipsize">middle</property>
@@ -101,14 +93,18 @@
                         <property name="margin-bottom">5</property>
                       </object>
                     </property>
+                    <property name="css-classes">level-box</property>
                     <property name="end-widget">
                       <object class="GtkButton">
+                        <property name="css-classes">button-text</property>
                         <property name="label">&gt;</property>
                         <property name="margin-start">5</property>
                       </object>
                     </property>
+                    <property name="margin-top">20</property>
                     <property name="start-widget">
-                      <object class="GtkButton">
+                      <object class="GtkButton" id="exit_btn">
+                        <property name="css-classes">button-text</property>
                         <property name="label">&lt;</property>
                         <property name="margin-end">5</property>
                       </object>
@@ -127,12 +123,14 @@
                     </property>
                     <property name="end-widget">
                       <object class="GtkButton">
+                        <property name="css-classes">button-text</property>
                         <property name="label">&gt;</property>
                         <property name="margin-start">5</property>
                       </object>
                     </property>
                     <property name="start-widget">
                       <object class="GtkButton">
+                        <property name="css-classes">button-text</property>
                         <property name="label">&lt;</property>
                         <property name="margin-end">5</property>
                       </object>
@@ -142,24 +140,22 @@
                 <child>
                   <object class="GtkButton">
                     <property name="can-shrink">True</property>
-                    <property name="label" translatable="yes" context="exit_txt">Exit</property>
+                    <property name="css-classes">button-text</property>
+                    <property name="label" translatable="yes" context="change_game_txt">Change Game</property>
                     <property name="margin-top">20</property>
                   </object>
                 </child>
               </object>
             </property>
+            <property name="name">game_menu_page</property>
           </object>
         </child>
       </object>
     </property>
-    <property name="default-height">800</property>
-    <property name="default-width">600</property>
+    <property name="default-height">700</property>
+    <property name="default-width">500</property>
     <property name="titlebar">
-      <object class="GtkHeaderBar">
-        <child>
-          <object class="GtkMenuButton"/>
-        </child>
-      </object>
+      <object class="GtkHeaderBar"/>
     </property>
   </object>
 </interface>
