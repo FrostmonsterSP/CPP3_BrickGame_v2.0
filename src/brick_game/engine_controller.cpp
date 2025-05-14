@@ -1,33 +1,26 @@
 #include "engine_controller.h"
-#include "engine.h"
 
-/**
- * @brief Создает новый EngineController и инициализирует состояние игры
- * 
- * Запускает входной сигнал старта игры и обновляет текущее состояние
- * игры при создании объекта.
- */
-s21::EngineController::EngineController() {
-  engine::userInput(engine::Start);
-  m_gameInfo_ = engine::updateCurrentState();
+#include <dlfcn.h>
+#include <stdexcept>
+
+s21::EngineController::EngineController(const std::string& game) {
+  std::string lib_path = "lib" + game + ".so";
+  GameLibLoader_(lib_path);
 }
 
-s21::EngineController::EngineController(EngineController&& other) noexcept {
-  m_gameInfo_ = other.m_gameInfo_;
-  other.m_gameInfo_ = nullptr;
-}
-
-auto s21::EngineController::operator=(EngineController&& other) noexcept
-    -> EngineController& {
-  m_gameInfo_ = other.m_gameInfo_;
-  other.m_gameInfo_ = nullptr;
-  return *this;
-}
-
-s21::EngineController::~EngineController() {
-  engine::userInput(engine::Terminate);
-  m_gameInfo_ = engine::updateCurrentState();
-  if (m_gameInfo_ != nullptr) {
-    m_gameInfo_ = nullptr;
+void s21::EngineController::GameLibLoader_(const std::string& lib_path) {
+  game_lib_ = dlopen(lib_path.c_str(), RTLD_LAZY);
+  if (game_lib_ == nullptr) {
+    throw std::runtime_error(dlerror());
+  }
+  updateCurrentState_fptr_ =
+      reinterpret_cast<void (*)()>(dlsym(game_lib_, "updateCurrentState"));
+  if (updateCurrentState_fptr_ == nullptr) {
+    throw std::runtime_error(dlerror());
+  }
+  userInput_fptr_ =
+      reinterpret_cast<void (*)(int)>(dlsym(game_lib_, "userInput"));
+  if (userInput_fptr_ == nullptr) {
+    throw std::runtime_error(dlerror());
   }
 }

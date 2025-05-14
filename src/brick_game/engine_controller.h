@@ -1,41 +1,33 @@
 #ifndef ENGINE_CONTROLLER_H
 #define ENGINE_CONTROLLER_H
 
-#ifdef __cplusplus
-extern "C" {
-namespace engine {
-#endif
-#include <engine.h>
-#ifdef __cplusplus
-}  // namespace engine_
-}
-#endif
-
+#include <string>
 namespace s21 {
 class EngineController {
+
  public:
   // Конструктор
-  explicit EngineController();
+  EngineController(const std::string&);
 
   // Запрещаем копирование
   EngineController(const EngineController&) = delete;
   auto operator=(const EngineController&) -> EngineController& = delete;
 
-  // Разрешаем перемещение
-  [[nodiscard]] EngineController(EngineController&& other) noexcept;
-  [[nodiscard]] auto operator=(EngineController&& other) noexcept
-      -> EngineController&;
+  // Запрещаем перемещение
+  EngineController(EngineController&& other) = delete;
+  auto operator=(EngineController&& other) = delete;
 
   // Деструктор
   ~EngineController();
 
   void UserAction(int);
 
-  // Проверка на инициализацию
-  //   [[nodiscard]] auto IsInitialized() const -> bool { return m_gameInfo_ != nullptr; }
-
  private:
-  const engine::GameInfo_t* m_gameInfo_;
+  void* game_lib_ = nullptr;
+  const void* game_info_ptr_ = nullptr;
+  void (*updateCurrentState_fptr_)() = nullptr;
+  void (*userInput_fptr_)(int) = nullptr;
+  void GameLibLoader_(const std::string&);
 };
 }  // namespace s21
 
