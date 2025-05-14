@@ -56,11 +56,7 @@
                     <property name="css-classes">main-text</property>
                     <property name="justify">center</property>
                     <property name="label" translatable="yes" context="loading_txt">Loading</property>
-                    <property name="margin-bottom">25</property>
                   </object>
-                </child>
-                <child>
-                  <object class="GtkProgressBar"/>
                 </child>
                 <style/>
               </object>
