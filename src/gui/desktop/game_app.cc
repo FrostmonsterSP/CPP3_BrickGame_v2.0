@@ -1,17 +1,15 @@
 #include "game_app.h"
 #include "game_app_window.h"
 
-#include <exception>
-
-GameApplication::GameApplication()
+s21::GameApplication::GameApplication()
     : Gtk::Application("edu.school21.BrickGame2",
                        Gio::Application::Flags::HANDLES_OPEN) {}
 
-auto GameApplication::Create() -> Glib::RefPtr<GameApplication> {
+auto s21::GameApplication::Create() -> Glib::RefPtr<GameApplication> {
   return Glib::make_refptr_for_instance<GameApplication>(new GameApplication());
 }  // GameApplication::Create
 
-auto GameApplication::CreateAppwindow_() -> GameAppWindow* {
+auto s21::GameApplication::CreateAppWindow_() -> GameAppWindow* {
   auto* appwindow = GameAppWindow::Create();
 
   add_window(*appwindow);
@@ -21,7 +19,7 @@ auto GameApplication::CreateAppwindow_() -> GameAppWindow* {
   return appwindow;
 }  // GameApplication::CreateAppwindow_
 
-void GameApplication::on_activate() {
+void s21::GameApplication::on_activate() {
   try {
     // The application has been started, so let's show a window.
     auto* appwindow = CreateAppWindow_();

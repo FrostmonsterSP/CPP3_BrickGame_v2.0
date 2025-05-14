@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 
+namespace s21 {
 class GameAppWindow;
 
 class GameApplication : public Gtk::Application {
@@ -18,5 +19,6 @@ class GameApplication : public Gtk::Application {
  private:
   auto CreateAppWindow_() -> GameAppWindow*;
 };  // class GameApplication
+}  // namespace s21
 
 #endif  // BRICK_APP_H

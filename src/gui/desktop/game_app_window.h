@@ -6,7 +6,9 @@
 
 #include <gtkmm.h>
 
+namespace s21 {
 class GameAppWindow : public Gtk::ApplicationWindow {
+
  public:
   GameAppWindow(BaseObjectType* cobject,
                 const Glib::RefPtr<Gtk::Builder>& ref_builder);
@@ -21,5 +23,6 @@ class GameAppWindow : public Gtk::ApplicationWindow {
   void InitMainMenu_();
   static void LoadController_(Gtk::Stack*);
 };
+}  // namespace s21
 
 #endif  // GAME_APP_WINDOW_H

@@ -1,13 +1,13 @@
 #include "game_app_window.h"
 
-GameAppWindow::GameAppWindow(BaseObjectType* cobject,
-                             const Glib::RefPtr<Gtk::Builder>& ref_builder)
+s21::GameAppWindow::GameAppWindow(BaseObjectType* cobject,
+                                  const Glib::RefPtr<Gtk::Builder>& ref_builder)
     : Gtk::ApplicationWindow(cobject), ref_builder_m(ref_builder) {
   InitStyle_();
   InitMainMenu_();
 }  // GameAppWindow::GameAppWindow
 
-auto GameAppWindow::Create() -> GameAppWindow* {
+auto s21::GameAppWindow::Create() -> GameAppWindow* {
   auto ref_builder = Gtk::Builder::create_from_resource(
       "/edu/school21/BrickGame2/assets/interface.ui");
 
@@ -20,7 +20,7 @@ auto GameAppWindow::Create() -> GameAppWindow* {
   return window;
 }  // GameAppWindow::Create
 
-void GameAppWindow::InitStyle_() {
+void s21::GameAppWindow::InitStyle_() {
   try {
     const auto kDisplay = get_display();
     set_display(kDisplay);
@@ -37,7 +37,7 @@ void GameAppWindow::InitStyle_() {
   }
 }  // GameAppWindow::InitStyle_
 
-void GameAppWindow::InitMainMenu_() {
+void s21::GameAppWindow::InitMainMenu_() {
   auto* main_stack = ref_builder_m->get_widget<Gtk::Stack>("main_stack");
 
   auto* tetris_button = ref_builder_m->get_widget<Gtk::Button>("tetris_button");
