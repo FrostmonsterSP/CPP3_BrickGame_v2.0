@@ -2,7 +2,7 @@
 
 GameAppWindow::GameAppWindow(BaseObjectType* cobject,
                              const Glib::RefPtr<Gtk::Builder>& ref_builder)
-    : Gtk::ApplicationWindow(cobject), m_ref_builder(ref_builder) {
+    : Gtk::ApplicationWindow(cobject), ref_builder_m(ref_builder) {
   InitStyle_();
 }  // GameAppWindow::GameAppWindow
 

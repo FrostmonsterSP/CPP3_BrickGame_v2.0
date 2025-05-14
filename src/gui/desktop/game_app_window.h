@@ -12,10 +12,9 @@ class GameAppWindow : public Gtk::ApplicationWindow {
                 const Glib::RefPtr<Gtk::Builder>& ref_builder);
 
   static auto Create() -> GameAppWindow*;
-  void OpenFileView(const Glib::RefPtr<Gio::File>& file);
 
  protected:
-  Glib::RefPtr<Gtk::Builder> m_ref_builder;
+  Glib::RefPtr<Gtk::Builder> ref_builder_m;
 
  private:
   void InitStyle_();
