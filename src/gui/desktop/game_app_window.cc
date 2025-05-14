@@ -20,9 +20,6 @@ auto GameAppWindow::Create() -> GameAppWindow* {
 }  // GameAppWindow::Create
 
 void GameAppWindow::InitStyle_() {
-  const auto* const kStyle =
-      "/edu/school21/BrickGame2/assets/css/interface.css";
-  const auto kPriority = GTK_STYLE_PROVIDER_PRIORITY_USER;
   try {
     const auto kDisplay = get_display();
     set_display(kDisplay);
