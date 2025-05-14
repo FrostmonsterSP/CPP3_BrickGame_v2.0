@@ -19,7 +19,7 @@ class GameAppWindow : public Gtk::ApplicationWindow {
  private:
   void InitStyle_();
   void InitMainMenu_();
-  static void LoadingHandler_(Gtk::Stack*);
+  static void LoadController_(Gtk::Stack*);
 };
 
 #endif  // GAME_APP_WINDOW_H

@@ -43,16 +43,12 @@ void GameAppWindow::InitMainMenu_() {
   auto* tetris_button = ref_builder_m->get_widget<Gtk::Button>("tetris_button");
   if (main_stack != nullptr) {
     tetris_button->signal_clicked().connect(
-        [main_stack]() { LoadingHandler_(main_stack); });
+        [main_stack]() { LoadController_(main_stack); });
   } else {
     g_error("No \"main_stack\" object in interface.ui");
   }
 }
 
-void GameAppWindow::LoadingHandler_(Gtk::Stack* main_stack) {
-
+void s21::GameAppWindow::LoadController_(Gtk::Stack* main_stack) {
   main_stack->set_visible_child("loading_page");
-  Glib::signal_timeout().connect_once(
-      [main_stack]() { main_stack->set_visible_child("game_menu_page"); },
-      3000);
 }
