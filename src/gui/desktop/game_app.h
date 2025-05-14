@@ -16,7 +16,7 @@ class GameApplication : public Gtk::Application {
   void on_activate() override;
 
  private:
-  auto CreateAppwindow_() -> GameAppWindow*;
+  auto CreateAppWindow_() -> GameAppWindow*;
 };  // class GameApplication
 
 #endif  // BRICK_APP_H

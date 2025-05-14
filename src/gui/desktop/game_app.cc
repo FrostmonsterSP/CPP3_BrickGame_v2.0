@@ -24,7 +24,7 @@ auto GameApplication::CreateAppwindow_() -> GameAppWindow* {
 void GameApplication::on_activate() {
   try {
     // The application has been started, so let's show a window.
-    auto* appwindow = CreateAppwindow_();
+    auto* appwindow = CreateAppWindow_();
     appwindow->present();
   } catch (const Glib::Error& ex) {
     g_error("GameApplication::on_activate(): %s\n", ex.what());
