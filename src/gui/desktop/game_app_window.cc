@@ -51,4 +51,7 @@ void s21::GameAppWindow::InitMainMenu_() {
 
 void s21::GameAppWindow::LoadController_(Gtk::Stack* main_stack) {
   main_stack->set_visible_child("loading_page");
+  // Swith page to next after 3 seconds
+  Glib::signal_timeout().connect_once(
+      [main_stack]() { main_stack->set_visible_child("game_page"); }, 3000);
 }
