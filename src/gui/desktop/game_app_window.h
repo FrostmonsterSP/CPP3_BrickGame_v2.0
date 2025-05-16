@@ -21,6 +21,8 @@ class GameAppWindow : public Gtk::ApplicationWindow {
  private:
   void InitStyle_();
   void InitMainMenu_();
+  void InitGameMenu_();
+
   static void LoadController_(Gtk::Stack*);
   static void UnloadController_(Gtk::Stack*);
 };

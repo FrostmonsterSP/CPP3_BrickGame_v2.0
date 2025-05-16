@@ -5,6 +5,7 @@ s21::GameAppWindow::GameAppWindow(BaseObjectType* cobject,
     : Gtk::ApplicationWindow(cobject), ref_builder_m(ref_builder) {
   InitStyle_();
   InitMainMenu_();
+  InitGameMenu_();
 }  // GameAppWindow::GameAppWindow
 
 auto s21::GameAppWindow::Create() -> GameAppWindow* {
@@ -44,6 +45,23 @@ void s21::GameAppWindow::InitMainMenu_() {
   if (main_stack != nullptr) {
     tetris_button->signal_clicked().connect(
         [main_stack]() { LoadController_(main_stack); });
+  } else {
+    g_error("No \"main_stack\" object in interface.ui");
+  }
+}
+
+void s21::GameAppWindow::InitGameMenu_() {
+  auto* main_stack = ref_builder_m->get_widget<Gtk::Stack>("main_stack");
+
+  auto* change_game_button =
+      ref_builder_m->get_widget<Gtk::Button>("change_game_button");
+  auto* play_button = ref_builder_m->get_widget<Gtk::Button>("play_button");
+
+  if (main_stack != nullptr) {
+    change_game_button->signal_clicked().connect(
+        [main_stack]() { UnloadController_(main_stack); });
+    play_button->signal_clicked().connect(
+        [main_stack]() { main_stack->set_visible_child("game_page"); });
   } else {
     g_error("No \"main_stack\" object in interface.ui");
   }
