@@ -44,7 +44,7 @@ void s21::GameAppWindow::InitMainMenu_() {
   auto* tetris_button = ref_builder_m->get_widget<Gtk::Button>("tetris_button");
   if (main_stack != nullptr) {
     tetris_button->signal_clicked().connect(
-        [main_stack]() { LoadController_(main_stack); });
+        [this, main_stack]() { LoadController_(main_stack, "tetris"); });
   } else {
     g_error("No \"main_stack\" object in interface.ui");
   }
@@ -59,7 +59,7 @@ void s21::GameAppWindow::InitGameMenu_() {
 
   if (main_stack != nullptr) {
     change_game_button->signal_clicked().connect(
-        [main_stack]() { UnloadController_(main_stack); });
+        [this, main_stack]() { UnloadController_(main_stack); });
     play_button->signal_clicked().connect(
         [main_stack]() { main_stack->set_visible_child("game_page"); });
   } else {
@@ -67,14 +67,19 @@ void s21::GameAppWindow::InitGameMenu_() {
   }
 }
 
-void s21::GameAppWindow::LoadController_(Gtk::Stack* main_stack) {
-  main_stack->set_visible_child("loading_page");
+void s21::GameAppWindow::LoadController_(Gtk::Stack* main_stack,
+                                         const std::string& game) {
   Glib::signal_timeout().connect_once(
       [main_stack]() { main_stack->set_visible_child("game_menu_page"); }, 500);
+  try {
+    engine_controller_ = std::make_shared<s21::EngineController>(game);
+  } catch (const std::exception& e) {
+    g_error("Error while loading library lib%s.so: %s", game.c_str(), e.what());
+  }
 }
 
 void s21::GameAppWindow::UnloadController_(Gtk::Stack* main_stack) {
-  main_stack->set_visible_child("loading_page");
   Glib::signal_timeout().connect_once(
       [main_stack]() { main_stack->set_visible_child("main_page"); }, 500);
-}
+  engine_controller_ = nullptr;
+}  // GameAppWindow::UnloadController_

@@ -15,16 +15,15 @@ class GameAppWindow : public Gtk::ApplicationWindow {
 
   static auto Create() -> GameAppWindow*;
 
- protected:
-  Glib::RefPtr<Gtk::Builder> ref_builder_m;
-
  private:
+  Glib::RefPtr<Gtk::Builder> ref_builder_m_;
+  std::shared_ptr<EngineController> engine_controller_ = nullptr;
   void InitStyle_();
   void InitMainMenu_();
   void InitGameMenu_();
 
-  static void LoadController_(Gtk::Stack*);
-  static void UnloadController_(Gtk::Stack*);
+  void LoadController_(Gtk::Stack*, const std::string&);
+  void UnloadController_(Gtk::Stack*);
 };
 }  // namespace s21
 
