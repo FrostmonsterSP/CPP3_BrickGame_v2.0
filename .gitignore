@@ -143,3 +143,4 @@ src/deps
 src/.clang-format
 pyvenv/
 dependencies/
+app/
