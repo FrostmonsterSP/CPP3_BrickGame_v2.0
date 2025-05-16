@@ -22,6 +22,7 @@ class GameAppWindow : public Gtk::ApplicationWindow {
   void InitStyle_();
   void InitMainMenu_();
   static void LoadController_(Gtk::Stack*);
+  static void UnloadController_(Gtk::Stack*);
 };
 }  // namespace s21
 
