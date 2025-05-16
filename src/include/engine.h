@@ -21,10 +21,14 @@
 #define ENGINE_H
 
 #define FIELD_HEIGHT 20  ///< Высота игрового поля в клетках
-#define FIELD_WIDTH 10  ///< Ширина игрового поля в клетках
+#define FIELD_WIDTH 10   ///< Ширина игрового поля в клетках
 
 #define NEXT_HEIGHT 4  ///< Высота поля "следующая" в клетках
 #define NEXT_WIDTH 4   ///< Ширина поля "следующая" в клетках
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @brief Действия пользователя
@@ -39,7 +43,7 @@ typedef enum {
   Right,      ///< Сдвиг фигуры вправо
   Up,         ///< Поворот фигуры
   Down,       ///< Ускорение падения фигуры
-  Action,  ///< Специальное действие (например, моментальное падение)
+  Action,     ///< Специальное действие (например, моментальное падение)
 } UserAction_t;
 
 /**
@@ -49,12 +53,12 @@ typedef enum {
  */
 typedef struct {
   int field[FIELD_HEIGHT][FIELD_WIDTH];  ///< Игровое поле
-  int **next;      ///< Указатель на следующую фигуру
-  int score;       ///< Текущие очки
-  int high_score;  ///< Рекорд
-  int level;       ///< Текущий уровень
-  int speed;       ///< Текущая скорость игры
-  int state;  ///< Текущее состояние игры
+  int **next;                            ///< Указатель на следующую фигуру
+  int score;                             ///< Текущие очки
+  int high_score;                        ///< Рекорд
+  int level;                             ///< Текущий уровень
+  int speed;                             ///< Текущая скорость игры
+  int state;                             ///< Текущее состояние игры
 } GameInfo_t;
 
 /**
@@ -82,5 +86,9 @@ void userInput(UserAction_t action);
  * состоянии игры.
  */
 const GameInfo_t *updateCurrentState(void);
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 
 #endif  // ENGINE_H

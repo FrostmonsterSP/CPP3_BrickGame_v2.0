@@ -6,9 +6,12 @@
 
 #include <gtkmm.h>
 
+#include <memory>
+
+#include "brick_game/engine_controller.h"
+
 namespace s21 {
 class GameAppWindow : public Gtk::ApplicationWindow {
-
  public:
   GameAppWindow(BaseObjectType* cobject,
                 const Glib::RefPtr<Gtk::Builder>& ref_builder);

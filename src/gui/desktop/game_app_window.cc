@@ -1,8 +1,14 @@
 #include "game_app_window.h"
 
+#include <memory>
+
+#include "glib.h"
+
+using std::shared_ptr;
+
 s21::GameAppWindow::GameAppWindow(BaseObjectType* cobject,
                                   const Glib::RefPtr<Gtk::Builder>& ref_builder)
-    : Gtk::ApplicationWindow(cobject), ref_builder_m(ref_builder) {
+    : Gtk::ApplicationWindow(cobject), ref_builder_m_(ref_builder) {
   InitStyle_();
   InitMainMenu_();
   InitGameMenu_();
@@ -39,9 +45,9 @@ void s21::GameAppWindow::InitStyle_() {
 }  // GameAppWindow::InitStyle_
 
 void s21::GameAppWindow::InitMainMenu_() {
-  auto* main_stack = ref_builder_m->get_widget<Gtk::Stack>("main_stack");
-
-  auto* tetris_button = ref_builder_m->get_widget<Gtk::Button>("tetris_button");
+  auto* main_stack = ref_builder_m_->get_widget<Gtk::Stack>("main_stack");
+  auto* tetris_button =
+      ref_builder_m_->get_widget<Gtk::Button>("tetris_button");
   if (main_stack != nullptr) {
     tetris_button->signal_clicked().connect(
         [this, main_stack]() { LoadController_(main_stack, "tetris"); });
@@ -51,11 +57,11 @@ void s21::GameAppWindow::InitMainMenu_() {
 }
 
 void s21::GameAppWindow::InitGameMenu_() {
-  auto* main_stack = ref_builder_m->get_widget<Gtk::Stack>("main_stack");
+  auto* main_stack = ref_builder_m_->get_widget<Gtk::Stack>("main_stack");
 
   auto* change_game_button =
-      ref_builder_m->get_widget<Gtk::Button>("change_game_button");
-  auto* play_button = ref_builder_m->get_widget<Gtk::Button>("play_button");
+      ref_builder_m_->get_widget<Gtk::Button>("change_game_button");
+  auto* play_button = ref_builder_m_->get_widget<Gtk::Button>("play_button");
 
   if (main_stack != nullptr) {
     change_game_button->signal_clicked().connect(
