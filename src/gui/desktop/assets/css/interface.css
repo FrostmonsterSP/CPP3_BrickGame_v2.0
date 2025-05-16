@@ -3,6 +3,11 @@
 	font-size: 2em;
 }
 
+.info-text {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
 .button-text {
 	font-weight: bold;
 }
@@ -26,54 +31,56 @@
     margin: 5px;
 }
 
-.flat.cell {
+
+.cell {
     transition: none;
     background-image: none;
     background-color: transparent;
+    margin: 1px;
+    border: 1px solid;
     border-radius: 3pt;
-    outline-color: #e2e2e222;
-    outline-width: 2px;
-    outline-style: solid;
-    outline-offset: -1px;
+    border-color: #e2e2e222;
+    border-width: 2px;
 }
 
-.dark-mode .flat.cell {
-    outline-color: #1d1d1d22;
+.dark-mode .cell {
+    border: 5px solid;
+    border-color: #1d1d1d22;
 }
 
-.flat.cell.filled {
+.cell.filled {
     background-color: #e2e2e228;
-    outline-color: #e2e2e280;
+    border-color: #e2e2e280;
 }
 
-.dark-mode .flat.cell.filled {
-    outline-color: #adadad80;
+.dark-mode .cell.filled {
+    border-color: #adadad80;
 }
 
-.flat.cell.filled.f1 {
+.cell.filled.f1 {
     background-color: #0341ae;
 }
 
-.flat.cell.filled.f2 {
+.cell.filled.f2 {
     background-color: #72cb3b;
 }
 
-.flat.cell.filled.f3 {
+.cell.filled.f3 {
     background-color: #ffd500;
 }
 
-.flat.cell.filled.f4 {
+.cell.filled.f4 {
     background-color: #ff3213;
 }
 
-.flat.cell.filled.f5 {
+.cell.filled.f5 {
     background-color: #943bcb;
 }
 
-.flat.cell.filled.f6 {
+.cell.filled.f6 {
     background-color: #00ffd5;
 }
 
-.flat.cell.filled.f7 {
+.cell.filled.f7 {
     background-color: #ff840a;
 }

@@ -4,154 +4,2640 @@
   <!-- interface-name interface.ui -->
   <requires lib="gtk" version="4.14"/>
   <object class="GtkApplicationWindow" id="app_window">
-    <property name="child">
-      <object class="GtkStack" id="main_stack">
-        <property name="transition-type">rotate-left-right</property>
+    <property name="titlebar">
+      <object class="GtkHeaderBar">
+        <property name="show-title-buttons">False</property>
         <child>
-          <object class="GtkStackPage" id="main_page">
-            <property name="child">
-              <object class="GtkBox" id="main_menu_box">
-                <property name="halign">center</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">4</property>
-                <property name="valign">center</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="css-classes">main-text</property>
-                    <property name="justify">center</property>
-                    <property name="label" translatable="yes" context="chose_game_txt">Chose the game</property>
-                    <property name="margin-bottom">25</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton" id="tetris_button">
-                    <property name="can-shrink">True</property>
-                    <property name="css-classes">button-text</property>
-                    <property name="label" translatable="yes" context="tetris_txt">Tetris</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton" id="snake_btn">
-                    <property name="can-shrink">True</property>
-                    <property name="css-classes">button-text</property>
-                    <property name="label" translatable="yes" context="snake_txt">Snake</property>
-                  </object>
-                </child>
-                <style/>
-              </object>
-            </property>
-            <property name="name">main_page</property>
+          <object class="GtkButton" id="pause_button">
+            <property name="label" translatable="yes" context="pause_txt">Pause</property>
           </object>
         </child>
-        <child>
-          <object class="GtkStackPage" id="loading_page">
-            <property name="child">
-              <object class="GtkBox">
-                <property name="halign">center</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">4</property>
-                <property name="valign">center</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="css-classes">main-text</property>
-                    <property name="justify">center</property>
-                    <property name="label" translatable="yes" context="loading_txt">Loading</property>
-                  </object>
-                </child>
-                <style/>
-              </object>
-            </property>
-            <property name="name">loading_page</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkStackPage" id="game_menu_page">
-            <property name="child">
-              <object class="GtkBox">
-                <property name="halign">center</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">4</property>
-                <property name="valign">center</property>
-                <child>
-                  <object class="GtkButton">
-                    <property name="can-shrink">True</property>
-                    <property name="css-classes">button-text</property>
-                    <property name="label" translatable="yes" context="play_txt">Play Game</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkCenterBox" id="level_bx">
-                    <property name="center-widget">
-                      <object class="GtkLabel">
-                        <property name="ellipsize">middle</property>
-                        <property name="justify">center</property>
-                        <property name="label">Level</property>
-                        <property name="margin-bottom">5</property>
-                      </object>
-                    </property>
-                    <property name="css-classes">level-box</property>
-                    <property name="end-widget">
-                      <object class="GtkButton">
-                        <property name="css-classes">button-text</property>
-                        <property name="label">&gt;</property>
-                        <property name="margin-start">5</property>
-                      </object>
-                    </property>
-                    <property name="margin-top">20</property>
-                    <property name="start-widget">
-                      <object class="GtkButton" id="exit_btn">
-                        <property name="css-classes">button-text</property>
-                        <property name="label">&lt;</property>
-                        <property name="margin-end">5</property>
-                      </object>
-                    </property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkCenterBox">
-                    <property name="center-widget">
-                      <object class="GtkLabel">
-                        <property name="ellipsize">middle</property>
-                        <property name="justify">center</property>
-                        <property name="label">Speed</property>
-                        <property name="margin-bottom">5</property>
-                      </object>
-                    </property>
-                    <property name="end-widget">
-                      <object class="GtkButton">
-                        <property name="css-classes">button-text</property>
-                        <property name="label">&gt;</property>
-                        <property name="margin-start">5</property>
-                      </object>
-                    </property>
-                    <property name="start-widget">
-                      <object class="GtkButton">
-                        <property name="css-classes">button-text</property>
-                        <property name="label">&lt;</property>
-                        <property name="margin-end">5</property>
-                      </object>
-                    </property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton">
-                    <property name="can-shrink">True</property>
-                    <property name="css-classes">button-text</property>
-                    <property name="label" translatable="yes" context="change_game_txt">Change Game</property>
-                    <property name="margin-top">20</property>
-                  </object>
-                </child>
-              </object>
-            </property>
-            <property name="name">game_menu_page</property>
+        <child type="end">
+          <object class="GtkButton" id="exit_button">
+            <property name="label" translatable="yes" context="exit_txt">Exit</property>
           </object>
         </child>
       </object>
     </property>
-    <property name="default-height">700</property>
-    <property name="default-width">500</property>
-    <property name="titlebar">
-      <object class="GtkHeaderBar"/>
-    </property>
+    <child>
+      <object class="GtkAspectFrame">
+        <property name="obey-child">False</property>
+        <property name="ratio">0.78</property>
+        <child>
+          <object class="GtkStack" id="main_stack">
+            <property name="transition-type">rotate-left-right</property>
+            <child>
+              <object class="GtkStackPage" id="main_page">
+                <property name="child">
+                  <object class="GtkBox" id="main_menu_box">
+                    <property name="halign">center</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">4</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="css-classes">main-text</property>
+                        <property name="justify">center</property>
+                        <property name="label" translatable="yes" context="chose_game_txt">Chose the game</property>
+                        <property name="margin-bottom">25</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="tetris_button">
+                        <property name="can-shrink">True</property>
+                        <property name="css-classes">button-text</property>
+                        <property name="label" translatable="yes" context="tetris_txt">Tetris</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="snake_btn">
+                        <property name="can-shrink">True</property>
+                        <property name="css-classes">button-text</property>
+                        <property name="label" translatable="yes" context="snake_txt">Snake</property>
+                      </object>
+                    </child>
+                    <style/>
+                  </object>
+                </property>
+                <property name="name">main_page</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage" id="loading_page">
+                <property name="child">
+                  <object class="GtkBox" id="loading_box">
+                    <property name="halign">center</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">4</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="css-classes">main-text</property>
+                        <property name="justify">center</property>
+                        <property name="label" translatable="yes" context="loading_txt">Loading</property>
+                      </object>
+                    </child>
+                    <style/>
+                  </object>
+                </property>
+                <property name="name">loading_page</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage" id="game_menu_page">
+                <property name="child">
+                  <object class="GtkBox" id="game_menu_box">
+                    <property name="halign">center</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">4</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkButton" id="play_button">
+                        <property name="can-shrink">True</property>
+                        <property name="css-classes">button-text</property>
+                        <property name="label" translatable="yes" context="play_txt">Play Game</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCenterBox" id="level_bx">
+                        <property name="center-widget">
+                          <object class="GtkLabel">
+                            <property name="justify">center</property>
+                            <property name="label">Level</property>
+                            <property name="margin-bottom">5</property>
+                          </object>
+                        </property>
+                        <property name="css-classes">level-box</property>
+                        <property name="end-widget">
+                          <object class="GtkButton">
+                            <property name="css-classes">button-text</property>
+                            <property name="label">&gt;</property>
+                            <property name="margin-start">5</property>
+                          </object>
+                        </property>
+                        <property name="margin-top">20</property>
+                        <property name="start-widget">
+                          <object class="GtkButton" id="exit_btn">
+                            <property name="css-classes">button-text</property>
+                            <property name="label">&lt;</property>
+                            <property name="margin-end">5</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkCenterBox">
+                        <property name="center-widget">
+                          <object class="GtkLabel">
+                            <property name="ellipsize">middle</property>
+                            <property name="justify">center</property>
+                            <property name="label">Speed</property>
+                            <property name="margin-bottom">5</property>
+                          </object>
+                        </property>
+                        <property name="end-widget">
+                          <object class="GtkButton">
+                            <property name="css-classes">button-text</property>
+                            <property name="label">&gt;</property>
+                            <property name="margin-start">5</property>
+                          </object>
+                        </property>
+                        <property name="start-widget">
+                          <object class="GtkButton">
+                            <property name="css-classes">button-text</property>
+                            <property name="label">&lt;</property>
+                            <property name="margin-end">5</property>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="change_game_button">
+                        <property name="can-shrink">True</property>
+                        <property name="css-classes">button-text</property>
+                        <property name="label" translatable="yes" context="change_game_txt">Change Game</property>
+                        <property name="margin-top">20</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="name">game_menu_page</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage" id="game_page">
+                <property name="child">
+                  <object class="GtkBox">
+                    <child>
+                      <object class="GtkAspectFrame">
+                        <property name="obey-child">False</property>
+                        <property name="ratio">0.5</property>
+                        <child>
+                          <object class="GtkGrid">
+                            <property name="column-homogeneous">True</property>
+                            <property name="css-classes">main-field</property>
+                            <property name="halign">baseline</property>
+                            <property name="hexpand">True</property>
+                            <property name="row-homogeneous">True</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <property name="focus-on-click">False</property>
+                                <property name="height-request">34</property>
+                                <property name="width-request">34</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="column-span">1</property>
+                                  <property name="row">0</property>
+                                  <property name="row-span">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">2</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">3</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">4</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">5</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">6</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">7</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">8</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">9</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">10</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">11</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">12</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">13</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">14</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">15</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">16</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">17</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">18</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">0</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">1</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">2</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">3</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">4</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">5</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">6</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">7</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">8</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="css-classes">cell</property>
+                                <layout>
+                                  <property name="column">9</property>
+                                  <property name="row">19</property>
+                                </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="can-focus">False</property>
+                        <property name="can-target">False</property>
+                        <property name="focus-on-click">False</property>
+                        <property name="halign">start</property>
+                        <property name="hexpand">True</property>
+                        <property name="orientation">vertical</property>
+                        <property name="sensitive">False</property>
+                        <property name="spacing">2</property>
+                        <property name="valign">start</property>
+                        <child>
+                          <object class="GtkAspectFrame">
+                            <property name="obey-child">False</property>
+                            <property name="ratio">1.0</property>
+                            <child>
+                              <object class="GtkGrid">
+                                <property name="can-focus">False</property>
+                                <property name="can-target">False</property>
+                                <property name="column-homogeneous">True</property>
+                                <property name="css-classes">main-field</property>
+                                <property name="halign">baseline</property>
+                                <property name="hexpand">True</property>
+                                <property name="row-homogeneous">True</property>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <property name="focus-on-click">False</property>
+                                    <property name="height-request">33</property>
+                                    <property name="width-request">33</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="column-span">1</property>
+                                      <property name="row">0</property>
+                                      <property name="row-span">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">0</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">1</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">2</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="can-focus">False</property>
+                                    <property name="can-target">False</property>
+                                    <property name="css-classes">cell</property>
+                                    <layout>
+                                      <property name="column">3</property>
+                                      <property name="row">3</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="css-classes">info-text</property>
+                            <property name="halign">start</property>
+                            <property name="justify">fill</property>
+                            <property name="label">Level:		/v</property>
+                            <property name="use-markup">True</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="css-classes">info-text</property>
+                            <property name="halign">start</property>
+                            <property name="label">Speed:		/v</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="css-classes">info-text</property>
+                            <property name="halign">start</property>
+                            <property name="label">Score:		/v</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="css-classes">info-text</property>
+                            <property name="halign">start</property>
+                            <property name="label">Hi-Score:	/v</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="name">game_page</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
